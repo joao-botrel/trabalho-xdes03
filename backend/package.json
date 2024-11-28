@@ -1,15 +1,19 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Backend da pokédex",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "João Vítor Botrel e Victor Pasquini",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.1"
+    "@prisma/client": "^6.0.0",
+    "express": "^4.21.1",
+    "nodemon": "^3.1.7",
+    "prisma": "^6.0.0"
   }
 }

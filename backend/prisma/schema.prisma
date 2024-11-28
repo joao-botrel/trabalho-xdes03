@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario{
+  id Int @id @default(autoincrement())
+  email String @unique @db.VarChar(255)
+  senha String @db.VarChar(255)
+  role Boolean
+  perfil Perfil @relation(fields: [perfilId], references: [id])
+  perfilId Int @unique
+  favoritos Favoritos[]
+  times Times[]
+}
+
+model Perfil{
+  id Int @id @default(autoincrement())
+  nome String @db.VarChar(255)
+  bio String? @db.VarChar(255)
+  fotoPerfil String? 
+  usuario Usuario?
+}
+
+model Favoritos{
+  id Int @id @default(autoincrement())
+  nome Int 
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId Int 
+}
+
+model Times{
+  id Int @id @default(autoincrement())
+  nome1 Int 
+  nome2 Int 
+  nome3 Int 
+  nome4 Int 
+  nome5 Int 
+  nome6 Int 
+  usuario Usuario @relation(fields: [usuarioId], references: [id])
+  usuarioId Int 
+}
+
+model Pokemon{
+  id Int @id
+  numero Int
+  nome String @db.VarChar(255)
+  tipo1 String @db.VarChar(255)
+  tipo2 String? @db.VarChar(255)
+  gen Int
+  descricao String
+  foto String
+}
