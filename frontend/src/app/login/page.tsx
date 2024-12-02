@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Pikacu from "/public/img/detetivePikachu.png"
+import Pikachu from "/public/img/detetivePikachu.png"
 
 
 export default function Login(){
@@ -7,7 +7,7 @@ export default function Login(){
 
     return (
         <div className="flex gap-12 mx-24 mt-12 justify-center">
-        <Image src={Pikacu} alt="Pikachu usando uma lupa e com um chapéu marrom de detetive" width={512}/>
+        <Image src={Pikachu} alt="Pikachu com uma lupa e um chapéu marrom de detetive" width={512}/>
 
         <form 
         className="flex flex-col border-2 rounded-xl place-items-center w-4/12 justify-center"
