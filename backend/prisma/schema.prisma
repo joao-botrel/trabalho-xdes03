@@ -18,7 +18,7 @@ model Usuario{
   email String @unique @db.VarChar(255)
   senha String @db.VarChar(255)
   role Boolean
-  perfil Perfil @relation(fields: [perfilId], references: [id])
+  perfil Perfil @relation(fields: [perfilId], references: [id], onDelete: Cascade)
   perfilId Int @unique
   favoritos Favoritos[]
   times Times[]
@@ -52,12 +52,13 @@ model Times{
 }
 
 model Pokemon{
-  id Int @id
+  id Int @id @default(autoincrement())
   numero Int
   nome String @db.VarChar(255)
   tipo1 String @db.VarChar(255)
   tipo2 String? @db.VarChar(255)
   gen Int
-  descricao String
-  foto String
+  descricao String @db.VarChar(255)
+  foto String @db.VarChar(255)
+  categoria String @db.VarChar(255)
 }

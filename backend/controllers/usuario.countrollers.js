@@ -6,19 +6,15 @@ const prisma = new PrismaClient()
 
 export const criarUsuario = async (req, res) => {
 
-    const role = req.body.role == 'true' ? true : false
-
-
     const usuario = await prisma.usuario.create({
         data: {
             email: req.body.email,
             senha: req.body.senha,
-            role: role,
+            role: req.body.role,
             perfil: {
                 create: {
                     nome: req.body.nome,
-                    bio: req.body.bio,
-                    fotoPerfil: req.file.path
+                    bio: req.body.bio
                 }
             }
         }
@@ -133,7 +129,6 @@ export const deletarUsuario = async (req, res) => {
 
 
     res.json({
-        data: usuario,
         msg: "Usuario deletado com sucesso!"
     })
 }

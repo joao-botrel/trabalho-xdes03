@@ -1,7 +1,7 @@
 import express from 'express'
 import multer from 'multer'
 import path from 'path'
-import * as usuarioController from '../controllers/usuario.controllers.js'
+import * as usuarioController from '../controllers/usuario.countrollers.js'
 import autorizarUsuario from '../Middlewares/auth.middlewares.js'
 import autorizarAdmin from '../Middlewares/admin.middlewares.js'
 
