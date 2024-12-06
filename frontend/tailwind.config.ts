@@ -14,6 +14,7 @@ export default {
 			},
 			backgroundImage: {
 				'splash-screen': "url('/img/Background.png')",
+				home: "url('/img/Background-inicio.png')",
 			},
 		},
 	},
