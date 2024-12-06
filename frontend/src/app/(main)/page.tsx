@@ -1,12 +1,17 @@
 import Image from 'next/image';
-import PokemonCard from '@/components/PokemonCard';
-import PokemonCardSmall from '@/components/PokemonCardSmall';
 import Link from 'next/link';
+
 import bulbasaur from '/public/img/bulbasaur.png';
+
+import PokemonCardSmall from '@/components/PokemonCardSmall';
+import PokemonCard from '@/components/PokemonCard';
+
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 export default function Inicio() {
 	return (
-		<div className="bg-home bg-cover">
+		<main className="bg-home bg-cover">
 			<div className=" flex flex-row h-fit w-5/6 max-w-6xl m-auto gap-20 p-8">
 				<section className="flex flex-col h-fit bg-green-100/75 border-2 border-slate-300 rounded-xl p-8 items-center">
 					<div className="flex flex-col gap-4 items-start">
@@ -118,6 +123,6 @@ export default function Inicio() {
 					</section>
 				</div>
 			</div>
-		</div>
+		</main>
 	);
 }
