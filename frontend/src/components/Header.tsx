@@ -5,7 +5,7 @@ import Foto from '/public/img/profile-photo.jpg';
 
 export default function Header() {
 	return (
-		<div className="h-20 bg-orange-500 flex items-center px-16 justify-between">
+		<header className="h-20 bg-orange-500 flex items-center px-16 justify-between">
 			<Link href={'/inicio'}>
 				<Image src={Icon} alt="Icon do site" height={64} />
 			</Link>
@@ -20,6 +20,6 @@ export default function Header() {
 					className="rounded-full"
 				/>
 			</div>
-		</div>
+		</header>
 	);
 }

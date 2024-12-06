@@ -1,9 +1,13 @@
 import Image from 'next/image';
-import PokemonCard from '@/components/PokemonCard';
-import PokemonCardSmall from '@/components/PokemonCardSmall';
 import Link from 'next/link';
+
 import bulbasaur from '/public/img/bulbasaur.png';
+
+import PokemonCardSmall from '@/components/PokemonCardSmall';
+import PokemonCard from '@/components/PokemonCard';
+
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 export default function Inicio() {
 	return (
@@ -126,6 +130,7 @@ export default function Inicio() {
 					</div>
 				</div>
 			</main>
+			<Footer />
 		</div>
 	);
 }
