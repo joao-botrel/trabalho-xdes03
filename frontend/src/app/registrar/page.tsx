@@ -10,7 +10,7 @@ export default function Registrar(){
         <Image src={Pikachu_Feliz} alt="Pikachu saltando" width={512}/>
 
         <form 
-        className="flex flex-col border-2 rounded-xl place-items-center w-4/12  justify-center justify-evenly">
+        className="flex flex-col border-2 rounded-xl place-items-center w-4/12 justify-center justify-evenly">
             <h1 className="text-3xl font-bold mt-8">Registro</h1>
 
             <div className="flex flex-col">
