@@ -21,11 +21,18 @@ export default function Perfil() {
                             placeholder="Nome do usuário" className="border-2 h-12 rounded-xl p-1.5 w-80 mb-4" />
                 </div>
 
+                <div className="flex">
+                <button 
+                className="border-2 w-40 h-12 p-2 bg-orange-500 rounded-lg mb-4 mt-6 mr-4
+                text-white text-lg font-bold hover:bg-red-700 transition duration-200"
+                >Cancelar</button>
+
 
                 <button 
-                className="border-2 w-40 h-12 p-2 bg-orange-500 rounded-lg mb-4 mt-6
-                text-white text-lg font-bold hover:bg-orange-700 transition duration-200"
+                className="border-2 w-40 h-12 p-2 bg-orange-500 rounded-lg mb-4 mt-6 ml-4
+                text-white text-lg font-bold hover:bg-green-700 transition duration-200"
                 >Salvar</button>
+                </div>
 
             </div>
         </>
