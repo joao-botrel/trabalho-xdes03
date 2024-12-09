@@ -1,3 +1,4 @@
+import Button from '@/components/Button';
 import PokemonCardSmall from '@/components/PokemonCardSmall';
 
 export default function NovoTime() {
@@ -32,7 +33,7 @@ export default function NovoTime() {
 					</div>
 				</div>
 				<div className="flex flex-col items-end w-full">
-					<button>Salvar</button>
+					<Button color="blue">Salvar</Button>
 				</div>
 			</section>
 		</div>
