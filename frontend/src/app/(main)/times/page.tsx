@@ -6,9 +6,9 @@ export default function Times() {
 			<div className="flex flex-col items-start gap-10">
 				<h1 className="text-3xl font-bold">Times</h1>
 				<div className="flex flex-col gap-8">
-					<Time />
-					<Time />
-					<Time />
+					<Time variant="horizontal" />
+					<Time variant="horizontal" />
+					<Time variant="horizontal" />
 				</div>
 			</div>
 		</div>

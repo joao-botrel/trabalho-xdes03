@@ -1,5 +1,5 @@
 import Button from '@/components/Button';
-import PokemonCardSmall from '@/components/PokemonCardSmall';
+import PokemonCard from '@/components/PokemonCard';
 
 import Search from '/public/img/search.svg';
 
@@ -22,12 +22,12 @@ export default function NovoTime() {
 						</Button>
 					</div>
 					<div className="grid grid-flow-row grid-cols-2 gap-4 overscroll-contain">
-						<PokemonCardSmall />
-						<PokemonCardSmall />
-						<PokemonCardSmall />
-						<PokemonCardSmall />
-						<PokemonCardSmall />
-						<PokemonCardSmall />
+						<PokemonCard variant="sm" />
+						<PokemonCard variant="sm" />
+						<PokemonCard variant="sm" />
+						<PokemonCard variant="sm" />
+						<PokemonCard variant="sm" />
+						<PokemonCard variant="sm" />
 					</div>
 				</div>
 			</section>
@@ -42,12 +42,12 @@ export default function NovoTime() {
 						className="p-2 bg-white/75 rounded-lg w-64"
 					/>
 					<div className="grid grid-flow-col grid-rows-2 gap-4">
-						<PokemonCardSmall />
-						<PokemonCardSmall />
-						<PokemonCardSmall />
-						<PokemonCardSmall />
-						<PokemonCardSmall />
-						<PokemonCardSmall />
+						<PokemonCard variant="sm" />
+						<PokemonCard variant="sm" />
+						<PokemonCard variant="sm" />
+						<PokemonCard variant="sm" />
+						<PokemonCard variant="sm" />
+						<PokemonCard variant="sm" />
 					</div>
 				</div>
 				<div className="flex flex-col items-end w-full">
