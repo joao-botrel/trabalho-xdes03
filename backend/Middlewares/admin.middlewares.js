@@ -14,7 +14,7 @@ if (authHeader == null){
 
 
     if (token){
-        jwt.verify(token, process.env.TOKEN_SECRET, (err, usuario) => {
+        jwt.verify(token, process.env.JWT_SECRET, (err, usuario) => {
             const role = usuario.role
             if(err || role == false) {
                 return res.sendStatus(401).json({

@@ -10,18 +10,18 @@ const storage = multer.diskStorage({
         cb(null, './public')
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + path.extname(file))
+        cb(null, Date.now() + path.extname(file.originalname))
     }
 })
 
 const router = express.Router()
 const upload = multer({storage: storage})
 
-router.post('/usuarios', upload.single('fotoPerfil'), usuarioController.criarUsuario)
+router.post('/usuarios', usuarioController.criarUsuario)
 router.post('/usuarios/login', usuarioController.login)
-router.put('/usuarios/:usuarioId', usuarioController.atualizarUsuario)
-router.delete('/usuarios/:usuarioId', usuarioController.deletarUsuario)
-router.get('/usuarios', usuarioController.getUsuarios)
+router.put('/usuarios/:usuarioId', upload.single('fotoPerfil'), usuarioController.atualizarUsuario)
+router.delete('/usuarios/:usuarioId', autorizarUsuario, usuarioController.deletarUsuario)
+router.get('/usuarios', autorizarAdmin, usuarioController.getUsuarios)
 router.get('/usuarios/:usuarioId', usuarioController.getUsuarioPorId)
 
 

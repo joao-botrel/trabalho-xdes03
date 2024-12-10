@@ -6,10 +6,10 @@ import autorizarAdmin from '../Middlewares/admin.middlewares.js'
 const router = express.Router()
 
 router.post('/pokemon', pokemonController.criarPokemon); 
-router.get('/pokemon', pokemonController.getPokemons); 
-router.get('/pokemon/numero/:numero', pokemonController.getPokemonPorId); 
-router.get('/pokemon/tipo', pokemonController.getPokemonsPorTipo);  
-router.get('/pokemon/gen/:gen', pokemonController.getPokemonPorGen); 
+router.get('/pokemon', autorizarUsuario, pokemonController.getPokemons); 
+router.get('/pokemon/numero/:numero', autorizarUsuario, pokemonController.getPokemonPorId); 
+router.get('/pokemon/tipo', autorizarUsuario, pokemonController.getPokemonsPorTipo);  
+router.get('/pokemon/gen/:gen', autorizarUsuario, pokemonController.getPokemonPorGen); 
 router.put('/pokemon/:pokemonId', pokemonController.atualizarPokemon); 
 router.delete('/pokemon/:pokemonId', pokemonController.deletarPokemon);
 

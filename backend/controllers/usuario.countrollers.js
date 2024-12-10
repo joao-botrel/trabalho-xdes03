@@ -57,28 +57,45 @@ export const login = async (req, res) => {
 }
 
 export const atualizarUsuario = async (req, res) => {
-    const usuario = await prisma.usuario.update({
-        where: {
-            id: parseInt(req.params.usuarioId)
-        },
+    try {
+        const { usuarioId } = req.params;
 
-        data: {
-            email: req.body.email,
-            perfil: {
-                update: {
-                    nome: req.body.nome,
-                    bio: req.body.bio
-                }
+        // Cria um objeto de atualização dinâmica
+        const atualizacoesPerfil = {};
+        if (req.body.nome) atualizacoesPerfil.nome = req.body.nome;
+        if (req.body.bio) atualizacoesPerfil.bio = req.body.bio;
+        if (req.file) atualizacoesPerfil.fotoPerfil = req.file.path;
+
+        const atualizacoesUsuario = {};
+        if (req.body.email) atualizacoesUsuario.email = req.body.email;
+
+        // Realiza a atualização no banco
+        const usuario = await prisma.usuario.update({
+            where: {
+                id: parseInt(usuarioId),
             },
-        }
-    })
-        
-    res.json({
-        data: usuario,
-        msg: "Usuario e perfil atualizados com sucesso!"
-    })
+            data: {
+                ...atualizacoesUsuario,
+                perfil: {
+                    update: {
+                        ...atualizacoesPerfil,
+                    },
+                },
+            },
+        });
 
-}
+        res.json({
+            data: usuario,
+            msg: "Usuário e perfil atualizados com sucesso!",
+        });
+    } catch (error) {
+        console.error("Erro ao atualizar o usuário:", error.message);
+        res.status(500).json({
+            msg: "Erro ao atualizar o usuário.",
+            error: error.message,
+        });
+    }
+};
 
 
 export const getUsuarios = async (req, res) => {
