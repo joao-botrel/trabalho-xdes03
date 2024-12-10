@@ -107,3 +107,42 @@ export const deletarFavorito = async (req, res) => {
         });
     }
 };
+
+export const atualizarFavorito = async (req, res) => {
+    try {
+        const favoritoId = parseInt(req.params.favoritoId);
+
+        if (isNaN(favoritoId)) {
+            return res.status(400).json({ msg: "O ID do favorito deve ser um número válido." });
+        }
+
+        const favoritoExistente = await prisma.favoritos.findUnique({
+            where: {
+                id: favoritoId
+            }
+        });
+
+        if (!favoritoExistente) {
+            return res.status(404).json({ msg: "Favorito não encontrado." });
+        }
+
+        const favoritoAtualizado = await prisma.favoritos.update({
+            where: {
+                id: favoritoId
+            },
+            data: req.body
+        });
+
+        res.json({
+            data: favoritoAtualizado,
+            msg: "Pokémon favorito atualizado com sucesso!"
+        });
+
+    } catch (error) {
+        console.error("Erro ao atualizar favorito:", error.message);
+        res.status(500).json({
+            msg: "Erro ao atualizar favorito.",
+            error: error.message
+        });
+    }
+};
