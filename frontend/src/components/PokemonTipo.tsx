@@ -1,22 +1,4 @@
-type PokemonType =
-	| 'normal'
-	| 'fighting'
-	| 'flying'
-	| 'poison'
-	| 'ground'
-	| 'rock'
-	| 'bug'
-	| 'ghost'
-	| 'steel'
-	| 'grass'
-	| 'fire'
-	| 'water'
-	| 'electric'
-	| 'psychic'
-	| 'ice'
-	| 'dragon'
-	| 'dark'
-	| 'fairy';
+import PokemonType from '@/types/pokemonType';
 
 type PokemonTipoProps = {
 	tipo: PokemonType;

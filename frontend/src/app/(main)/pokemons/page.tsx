@@ -29,18 +29,66 @@ export default function Pokemons() {
 				</div>
 			</div>
 			<div className="grid grid-flow-row grid-cols-3  gap-y-8 gap-x-16 w-fit">
-				<PokemonCard />
-				<PokemonCard />
-				<PokemonCard />
-				<PokemonCard />
-				<PokemonCard />
-				<PokemonCard />
-				<PokemonCard />
-				<PokemonCard />
-				<PokemonCard />
-				<PokemonCard />
-				<PokemonCard />
-				<PokemonCard />
+				<PokemonCard
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
 			</div>
 		</div>
 	);

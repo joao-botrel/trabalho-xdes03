@@ -28,12 +28,42 @@ export default function Time({ variant }: TimeProps) {
 					'grid grid-rows-2 grid-flow-col': variant === 'grid',
 				})}
 			>
-				<PokemonCard variant="sm" />
-				<PokemonCard variant="sm" />
-				<PokemonCard variant="sm" />
-				<PokemonCard variant="sm" />
-				<PokemonCard variant="sm" />
-				<PokemonCard variant="sm" />
+				<PokemonCard
+					variant="sm"
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					variant="sm"
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					variant="sm"
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					variant="sm"
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					variant="sm"
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					variant="sm"
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
 			</div>
 		</div>
 	);

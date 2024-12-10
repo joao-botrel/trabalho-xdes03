@@ -2,15 +2,25 @@ import Image from 'next/image';
 import bulbasauro from '/public/img/bulbasaur.png';
 import PokemonTipo from './PokemonTipo';
 
+import PokemonType from '@/types/pokemonType';
+
 import clsx from 'clsx';
 
 type Variants = 'md' | 'sm';
 
 type PokemonCardProps = {
+	nome: string;
+	tipos: PokemonType[];
+	img: string;
 	variant?: Variants;
 };
 
-export default function PokemonCard({ variant = 'md' }: PokemonCardProps) {
+export default function PokemonCard({
+	nome,
+	tipos,
+	img,
+	variant = 'md',
+}: PokemonCardProps) {
 	return (
 		<div
 			className={clsx(
@@ -32,16 +42,17 @@ export default function PokemonCard({ variant = 'md' }: PokemonCardProps) {
 			>
 				<Image
 					src={bulbasauro}
-					alt="Bulbasauro"
+					alt={`Imagem do Pokémon ${nome}`}
 					width={variant === 'md' ? 150 : 75}
 				/>
 			</div>
 			<div className="flex-1 bg-white">
 				<div className="flex flex-row gap-1">
-					<PokemonTipo tipo="grass" />
-					<PokemonTipo tipo="poison" />
+					{tipos.map((tipo, index) => (
+						<PokemonTipo key={index} tipo={tipo} />
+					))}
 				</div>
-				<p className="text-lg font-bold">Bulbasaur</p>
+				<p className="text-lg font-bold">{nome}</p>
 			</div>
 		</div>
 	);

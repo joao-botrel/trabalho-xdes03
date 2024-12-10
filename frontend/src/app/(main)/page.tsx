@@ -14,9 +14,21 @@ export default function Inicio() {
 					<h2 className="text-xl font-bold">Lista de Pokemons</h2>
 					<div className="flex flex-col gap-2 items-end">
 						<div className="flex flex-col gap-4">
-							<PokemonCard />
-							<PokemonCard />
-							<PokemonCard />
+							<PokemonCard
+								nome="Bulbasaur"
+								img=""
+								tipos={['grass', 'poison']}
+							/>
+							<PokemonCard
+								nome="Bulbasaur"
+								img=""
+								tipos={['fire', 'ice']}
+							/>
+							<PokemonCard
+								nome="Bulbasaur"
+								img=""
+								tipos={['ground', 'fighting']}
+							/>
 						</div>
 						<Link
 							className="bg-green-400 hover:bg-green-500 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold"
