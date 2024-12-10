@@ -34,9 +34,10 @@ model Perfil{
 
 model Favoritos{
   id Int @id @default(autoincrement())
-  nome Int 
+  nome String 
   usuario Usuario @relation(fields: [usuarioId], references: [id])
   usuarioId Int 
+  @@unique([nome, usuarioId])
 }
 
 model Times{

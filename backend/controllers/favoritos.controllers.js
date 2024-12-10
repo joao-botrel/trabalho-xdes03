@@ -1,11 +1,14 @@
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 export const criarFavorito = async (req, res) => {
-    const favorito = await prisma.favoritos.create(
-        {
-            data:
-            {
+    try {
+        if (!req.body.nome || !req.body.usuario) {
+            return res.status(400).json({ msg: "Nome do Pokémon e ID do usuário são obrigatórios." });
+        }
+
+        const favorito = await prisma.favoritos.create({
+            data: {
                 nome: req.body.nome,
                 usuario: {
                     connect: {
@@ -13,29 +16,43 @@ export const criarFavorito = async (req, res) => {
                     }
                 }
             }
-        }
-    )
+        });
 
-    res.json({
-        data: favorito,
-        msg: "Pokémon favoritado com sucesso!"
-    })
+        res.json({
+            data: favorito,
+            msg: "Pokémon favoritado com sucesso!"
+        });
 
-}
+    } catch (error) {
+        console.error("Erro ao criar favorito:", error.message);
+        res.status(500).json({
+            msg: "Erro ao criar favorito.",
+            error: error.message
+        });
+    }
+};
 
 export const getFavoritoPorUsuario = async (req, res) => {
-    const usuarioId = parseInt(req.params.usuarioId)
-
-    // Valida se o ID do usuário é válido
-    if (isNaN(usuarioId)) {
-        return res.status(400).json({ msg: "O ID do usuário deve ser um número válido." })
-    }
-
     try {
-        // Busca todos os favoritos relacionados ao ID do usuário
+        const usuarioId = parseInt(req.params.usuarioId);
+
+        if (isNaN(usuarioId)) {
+            return res.status(400).json({ msg: "O ID do usuário deve ser um número válido." });
+        }
+
+        const usuarioExistente = await prisma.usuario.findUnique({
+            where: {
+                id: usuarioId
+            }
+        });
+
+        if (!usuarioExistente) {
+            return res.status(404).json({ msg: "Usuário não encontrado." });
+        }   
+
         const favoritos = await prisma.favoritos.findMany({
             where: {
-                usuarioId: usuarioId // Assumindo que "usuarioId" é a chave estrangeira no modelo de favoritos
+                usuarioId: usuarioId
             }
         });
 
@@ -47,20 +64,46 @@ export const getFavoritoPorUsuario = async (req, res) => {
             data: favoritos,
             msg: "Favoritos encontrados com sucesso!"
         });
+
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ msg: "Erro ao buscar favoritos." });
+        console.error("Erro ao buscar favoritos:", error.message);
+        res.status(500).json({ msg: "Erro ao buscar favoritos.", error: error.message });
     }
-}
+};
 
 export const deletarFavorito = async (req, res) => {
-    const favoritoDeletado = await prisma.favoritos.delete({
-        where: {
-            id: parseInt(req.params.favoritoId)
-        }
-    })
+    try {
+        const favoritoId = parseInt(req.params.favoritoId);
 
-    res.json({
-        msg: "Pokémon desfavoritado com sucesso!"
-    })
-}
+        if (isNaN(favoritoId)) {
+            return res.status(400).json({ msg: "O ID do favorito deve ser um número válido." });
+        }
+
+        const favoritoExistente = await prisma.favoritos.findUnique({
+            where: {
+                id: favoritoId
+            }
+        });
+
+        if (!favoritoExistente) {
+            return res.status(404).json({ msg: "Favorito não encontrado." });
+        }
+
+        await prisma.favoritos.delete({
+            where: {
+                id: favoritoId
+            }
+        });
+
+        res.json({
+            msg: "Pokémon desfavoritado com sucesso!"
+        });
+
+    } catch (error) {
+        console.error("Erro ao deletar favorito:", error.message);
+        res.status(500).json({
+            msg: "Erro ao desfavoritar Pokémon.",
+            error: error.message
+        });
+    }
+};
