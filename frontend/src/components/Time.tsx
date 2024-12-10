@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import PokemonCardSmall from './PokemonCardSmall';
+import PokemonCard from './PokemonCard';
 
 import Pencil from '/public/img/pencil.svg';
 import Trash from '/public/img/trash.svg';
@@ -15,12 +15,12 @@ export default function Time() {
 				</div>
 			</div>
 			<div className="flex flex-row gap-4">
-				<PokemonCardSmall />
-				<PokemonCardSmall />
-				<PokemonCardSmall />
-				<PokemonCardSmall />
-				<PokemonCardSmall />
-				<PokemonCardSmall />
+				<PokemonCard variant="sm" />
+				<PokemonCard variant="sm" />
+				<PokemonCard variant="sm" />
+				<PokemonCard variant="sm" />
+				<PokemonCard variant="sm" />
+				<PokemonCard variant="sm" />
 			</div>
 		</div>
 	);

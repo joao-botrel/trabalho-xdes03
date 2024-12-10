@@ -3,7 +3,6 @@ import Link from 'next/link';
 
 import bulbasaur from '/public/img/bulbasaur.png';
 
-import PokemonCardSmall from '@/components/PokemonCardSmall';
 import PokemonCard from '@/components/PokemonCard';
 
 export default function Inicio() {
@@ -98,12 +97,12 @@ export default function Inicio() {
 									Time Pokemaníaco
 								</h3>
 								<div className="grid grid-rows-2 grid-flow-col gap-4">
-									<PokemonCardSmall />
-									<PokemonCardSmall />
-									<PokemonCardSmall />
-									<PokemonCardSmall />
-									<PokemonCardSmall />
-									<PokemonCardSmall />
+									<PokemonCard variant="sm" />
+									<PokemonCard variant="sm" />
+									<PokemonCard variant="sm" />
+									<PokemonCard variant="sm" />
+									<PokemonCard variant="sm" />
+									<PokemonCard variant="sm" />
 								</div>
 							</div>
 							<Link
