@@ -25,9 +25,4 @@ router.get('/usuarios', autorizarAdmin, usuarioController.getUsuarios)
 router.get('/usuarios/:usuarioId', usuarioController.getUsuarioPorId)
 
 
-
-
-
-
-
 export default router
