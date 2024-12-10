@@ -73,13 +73,13 @@ export default function Inicio() {
 							<div className="flex gap-2">
 								<Link
 									className="bg-blue-400 hover:bg-blue-500 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold"
-									href={'/'}
+									href={'/times'}
 								>
 									Times
 								</Link>
 								<Link
 									className="bg-transparent border border-blue-400 hover:bg-blue-200 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold"
-									href={'/'}
+									href={'/perfil'}
 								>
 									Editar Perfil
 								</Link>
@@ -107,7 +107,7 @@ export default function Inicio() {
 							</div>
 							<Link
 								className="bg-orange-400 hover:bg-orange-500 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold"
-								href={'/pokemons'}
+								href={'/times'}
 							>
 								Ver Todos {'>>'}
 							</Link>

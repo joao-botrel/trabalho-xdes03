@@ -16,13 +16,13 @@ export default function Header() {
 
 	return (
 		<header className="h-20 bg-orange-500 flex items-center px-16 justify-between">
-			<Link href={'/inicio'}>
+			<Link href={'/'}>
 				<Image src={Icon} alt="Icon do site" height={64} />
 			</Link>
 			<div className="flex flex-row items-center gap-8 font-bold text-white text-lg">
-				<Link href={'/inicio'}>Início</Link>
-				<Link href={'/'}>Pokémons</Link>
-				<Link href={'/'}>Times</Link>
+				<Link href={'/'}>Início</Link>
+				<Link href={'/pokemons'}>Pokémons</Link>
+				<Link href={'/times'}>Times</Link>
 				<div className="relative">
 					<button onClick={toggleDropdown}>
 						<Image
