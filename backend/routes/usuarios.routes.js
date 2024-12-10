@@ -23,6 +23,7 @@ router.put('/usuarios/:usuarioId', upload.single('fotoPerfil'), usuarioControlle
 router.delete('/usuarios/:usuarioId', autorizarUsuario, usuarioController.deletarUsuario)
 router.get('/usuarios', autorizarAdmin, usuarioController.getUsuarios)
 router.get('/usuarios/:usuarioId', usuarioController.getUsuarioPorId)
+router.post('/usuarios/logout', autorizarUsuario, usuarioController.logout)
 
 
 export default router

@@ -231,3 +231,16 @@ export const deletarUsuario = async (req, res) => {
     }
 };
 
+export const logout = (req, res) => {
+    try {
+        res.json({
+            msg: "Logout realizado com sucesso!",
+        });
+    } catch (error) {
+        console.error("Erro ao realizar logout:", error.message);
+        res.status(500).json({
+            msg: "Erro ao realizar logout.",
+            error: error.message,
+        });
+    }
+};
