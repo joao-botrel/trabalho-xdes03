@@ -53,8 +53,8 @@ model Times{
 
 model Pokemon{
   id Int @id @default(autoincrement())
-  numero Int
-  nome String @db.VarChar(255)
+  numero Int @unique
+  nome String @unique @db.VarChar(255)
   tipo1 String @db.VarChar(255)
   tipo2 String? @db.VarChar(255)
   gen Int
