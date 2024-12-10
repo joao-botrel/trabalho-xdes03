@@ -37,7 +37,10 @@ export default function PokemonCard({ variant = 'md' }: PokemonCardProps) {
 				/>
 			</div>
 			<div className="flex-1 bg-white">
-				<PokemonTipo />
+				<div className="flex flex-row gap-1">
+					<PokemonTipo tipo="grass" />
+					<PokemonTipo tipo="poison" />
+				</div>
 				<p className="text-lg font-bold">Bulbasaur</p>
 			</div>
 		</div>
