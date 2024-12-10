@@ -1,10 +1,18 @@
 import Image from 'next/image';
-import PokemonCardSmall from './PokemonCardSmall';
+import PokemonCard from './PokemonCard';
 
 import Pencil from '/public/img/pencil.svg';
 import Trash from '/public/img/trash.svg';
 
-export default function Time() {
+import clsx from 'clsx';
+
+type Variant = 'horizontal' | 'grid';
+
+type TimeProps = {
+	variant: Variant;
+};
+
+export default function Time({ variant }: TimeProps) {
 	return (
 		<div className="flex flex-col gap-2 items-start border bg-slate-100/75 border-slate-400 overflow-hidden rounded-lg p-4">
 			<div className="flex flex-row justify-between w-full">
@@ -14,13 +22,48 @@ export default function Time() {
 					<Image src={Trash} alt="excluir" height={24} />
 				</div>
 			</div>
-			<div className="flex flex-row gap-4">
-				<PokemonCardSmall />
-				<PokemonCardSmall />
-				<PokemonCardSmall />
-				<PokemonCardSmall />
-				<PokemonCardSmall />
-				<PokemonCardSmall />
+			<div
+				className={clsx('gap-4', {
+					'flex flex-row': variant === 'horizontal',
+					'grid grid-rows-2 grid-flow-col': variant === 'grid',
+				})}
+			>
+				<PokemonCard
+					variant="sm"
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					variant="sm"
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					variant="sm"
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					variant="sm"
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					variant="sm"
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
+				<PokemonCard
+					variant="sm"
+					nome="Bulbasaur"
+					img=""
+					tipos={['grass', 'poison']}
+				/>
 			</div>
 		</div>
 	);

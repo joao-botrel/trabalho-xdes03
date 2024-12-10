@@ -3,8 +3,8 @@ import Link from 'next/link';
 
 import bulbasaur from '/public/img/bulbasaur.png';
 
-import PokemonCardSmall from '@/components/PokemonCardSmall';
 import PokemonCard from '@/components/PokemonCard';
+import Time from '@/components/Time';
 
 export default function Inicio() {
 	return (
@@ -14,9 +14,21 @@ export default function Inicio() {
 					<h2 className="text-xl font-bold">Lista de Pokemons</h2>
 					<div className="flex flex-col gap-2 items-end">
 						<div className="flex flex-col gap-4">
-							<PokemonCard />
-							<PokemonCard />
-							<PokemonCard />
+							<PokemonCard
+								nome="Bulbasaur"
+								img=""
+								tipos={['grass', 'poison']}
+							/>
+							<PokemonCard
+								nome="Bulbasaur"
+								img=""
+								tipos={['fire', 'ice']}
+							/>
+							<PokemonCard
+								nome="Bulbasaur"
+								img=""
+								tipos={['ground', 'fighting']}
+							/>
 						</div>
 						<Link
 							className="bg-green-400 hover:bg-green-500 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold"
@@ -74,13 +86,13 @@ export default function Inicio() {
 							<div className="flex gap-2">
 								<Link
 									className="bg-blue-400 hover:bg-blue-500 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold"
-									href={'/'}
+									href={'/times'}
 								>
 									Times
 								</Link>
 								<Link
 									className="bg-transparent border border-blue-400 hover:bg-blue-200 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold"
-									href={'/'}
+									href={'/perfil'}
 								>
 									Editar Perfil
 								</Link>
@@ -89,26 +101,14 @@ export default function Inicio() {
 						<div className="bg-amber-300 w-64 h-64 rounded-full"></div>
 					</div>
 				</section>
-				<section className="flex flex-col items-center bg-orange-100/75 border-2 border-slate-300 rounded-xl p-8">
+				<section className="flex flex-col items-center bg-orange-100/75 border-2 border-slate-300 rounded-xl p-6">
 					<div className="flex flex-col gap-4 items-start">
 						<h2 className="text-xl font-bold">Meus Times</h2>
 						<div className="flex flex-col gap-2 items-end">
-							<div className="flex flex-col gap-2 items-start border bg-slate-100/75 border-slate-400 overflow-hidden rounded-lg p-2">
-								<h3 className="text-lg font-semibold">
-									Time Pokemaníaco
-								</h3>
-								<div className="grid grid-rows-2 grid-flow-col gap-4">
-									<PokemonCardSmall />
-									<PokemonCardSmall />
-									<PokemonCardSmall />
-									<PokemonCardSmall />
-									<PokemonCardSmall />
-									<PokemonCardSmall />
-								</div>
-							</div>
+							<Time variant="grid" />
 							<Link
 								className="bg-orange-400 hover:bg-orange-500 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold"
-								href={'/pokemons'}
+								href={'/times'}
 							>
 								Ver Todos {'>>'}
 							</Link>
