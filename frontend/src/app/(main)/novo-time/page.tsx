@@ -22,7 +22,21 @@ export default function NovoTime() {
 							<Image src={Search} alt="buscar" width={16} />
 						</Button>
 					</div>
-					<div className="grid grid-flow-row grid-cols-2 gap-4 overscroll-contain">
+					<div className="grid grid-flow-row grid-cols-2 gap-4 max-h-[500px] overflow-y-auto">
+						<PokemonCard
+							variant="sm"
+							nome="Bulbasaur"
+							img=""
+							tipos={['grass', 'poison']}
+							numero={1}
+						/>
+						<PokemonCard
+							variant="sm"
+							nome="Bulbasaur"
+							img=""
+							tipos={['grass', 'poison']}
+							numero={1}
+						/>
 						<PokemonCard
 							variant="sm"
 							nome="Bulbasaur"
