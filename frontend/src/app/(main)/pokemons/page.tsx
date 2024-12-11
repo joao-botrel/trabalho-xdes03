@@ -7,6 +7,41 @@ import SearchIcon from '/public/img/search.svg';
 import { useState } from 'react';
 import PokemonTipo from '@/components/PokemonTipo';
 
+import PokemonType from '@/types/pokemonType';
+
+const generations = [
+	{ id: '1', nome: 'Geração I' },
+	{ id: '2', nome: 'Geração II' },
+	{ id: '3', nome: 'Geração III' },
+	{ id: '4', nome: 'Geração IV' },
+	{ id: '5', nome: 'Geração V' },
+	{ id: '6', nome: 'Geração VI' },
+	{ id: '7', nome: 'Geração VII' },
+	{ id: '8', nome: 'Geração VIII' },
+	{ id: '9', nome: 'Geração IX' },
+];
+
+const pokemonTypes: Array<PokemonType> = [
+	'normal',
+	'fighting',
+	'flying',
+	'poison',
+	'ground',
+	'rock',
+	'bug',
+	'ghost',
+	'steel',
+	'grass',
+	'fire',
+	'water',
+	'electric',
+	'psychic',
+	'ice',
+	'dragon',
+	'dark',
+	'fairy',
+];
+
 enum MODAL_FILTRO {
 	NONE = 0,
 	LIST = 1,
@@ -15,6 +50,9 @@ enum MODAL_FILTRO {
 }
 
 export default function Pokemons() {
+	const [idSearch, setIdSearch] = useState<string>('');
+	const [nameSearch, setNameSearch] = useState<string>('');
+
 	const [showFilters, setShowFilters] = useState(MODAL_FILTRO.NONE);
 
 	const toggleDropdown = () => {
@@ -31,8 +69,26 @@ export default function Pokemons() {
 					<div className="flex flex-row items-center gap-2">
 						<input
 							className="p-2 rounded-md border border-gray-500"
+							type="number"
+							placeholder="Buscar por número"
+							value={idSearch}
+							onChange={(e) => setIdSearch(e.target.value)}
+						/>
+						<button className="bg-orange-400 hover:bg-orange-600 transition duration-300 p-2 rounded-md">
+							<Image
+								src={SearchIcon}
+								alt={'Buscar'}
+								height={24}
+							/>
+						</button>
+					</div>
+					<div className="flex flex-row items-center gap-2">
+						<input
+							className="p-2 rounded-md border border-gray-500"
 							type="text"
-							placeholder="Buscar"
+							placeholder="Buscar por nome"
+							value={nameSearch}
+							onChange={(e) => setNameSearch(e.target.value)}
 						/>
 						<button className="bg-orange-400 hover:bg-orange-600 transition duration-300 p-2 rounded-md">
 							<Image
@@ -74,54 +130,28 @@ export default function Pokemons() {
 						{showFilters === MODAL_FILTRO.GEN && (
 							<div className="absolute right-0 w-32 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
 								<div className="py-1">
-									<button className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-										Geração I
-									</button>
-									<button className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-										Geração II
-									</button>
-									<button className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-										Geração III
-									</button>
-									<button className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-										Geração IV
-									</button>
-									<button className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-										Geração V
-									</button>
-									<button className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-										Geração VI
-									</button>
-									<button className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-										Geração VII
-									</button>
-									<button className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-										Geração VIII
-									</button>
-									<button className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-										Geração IX
-									</button>
+									{generations.map((item) => (
+										<button
+											key={item.id}
+											className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+										>
+											{item.nome}
+										</button>
+									))}
 								</div>
 							</div>
 						)}
 						{showFilters === MODAL_FILTRO.TYPE && (
 							<div className="absolute right-0 w-32 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
 								<div className="py-1">
-									<button className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-										<PokemonTipo tipo="fire" />
-									</button>
-									<button className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-										<PokemonTipo tipo="water" />
-									</button>
-									<button className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-										<PokemonTipo tipo="grass" />
-									</button>
-									<button className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-										<PokemonTipo tipo="ghost" />
-									</button>
-									<button className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-										<PokemonTipo tipo="ground" />
-									</button>
+									{pokemonTypes.map((tipo, index) => (
+										<button
+											key={index}
+											className="flex justify-end w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+										>
+											<PokemonTipo tipo={tipo} />
+										</button>
+									))}
 								</div>
 							</div>
 						)}
