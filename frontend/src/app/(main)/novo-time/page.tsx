@@ -27,36 +27,42 @@ export default function NovoTime() {
 							nome="Bulbasaur"
 							img=""
 							tipos={['grass', 'poison']}
+							numero={1}
 						/>
 						<PokemonCard
 							variant="sm"
 							nome="Bulbasaur"
 							img=""
 							tipos={['grass', 'poison']}
+							numero={1}
 						/>
 						<PokemonCard
 							variant="sm"
 							nome="Bulbasaur"
 							img=""
 							tipos={['grass', 'poison']}
+							numero={1}
 						/>
 						<PokemonCard
 							variant="sm"
 							nome="Bulbasaur"
 							img=""
 							tipos={['grass', 'poison']}
+							numero={1}
 						/>
 						<PokemonCard
 							variant="sm"
 							nome="Bulbasaur"
 							img=""
 							tipos={['grass', 'poison']}
+							numero={1}
 						/>
 						<PokemonCard
 							variant="sm"
 							nome="Bulbasaur"
 							img=""
 							tipos={['grass', 'poison']}
+							numero={1}
 						/>
 					</div>
 				</div>

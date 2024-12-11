@@ -12,6 +12,7 @@ type PokemonCardProps = {
 	nome: string;
 	tipos: PokemonType[];
 	img: string;
+	numero: number;
 	variant?: Variants;
 };
 
@@ -19,6 +20,7 @@ export default function PokemonCard({
 	nome,
 	tipos,
 	img,
+	numero,
 	variant = 'md',
 }: PokemonCardProps) {
 	return (
@@ -33,13 +35,16 @@ export default function PokemonCard({
 		>
 			<div
 				className={clsx(
-					'bg-green-100 flex items-center justify-center rounded-xl',
+					'relative bg-green-100 flex items-center justify-center rounded-xl',
 					{
 						'h-40': variant === 'md',
 						'h-20': variant === 'sm',
 					}
 				)}
 			>
+				<p className="absolute bottom-0 left-0 text-sm font-semibold p-2">
+					Nº {numero}
+				</p>
 				<Image
 					src={bulbasauro}
 					alt={`Imagem do Pokémon ${nome}`}

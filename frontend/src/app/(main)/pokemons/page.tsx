@@ -5,7 +5,6 @@ import SearchIcon from '/public/img/search.svg';
 
 export default function Pokemons() {
 	return (
-		
 		<div className="flex flex-col items-center h-fit w-5/6 max-w-6xl m-auto gap-20 p-8 bg-gray-100/75 border-2 border-slate-300 rounded-xl">
 			<div className="flex flex-row justify-between w-full">
 				<h1 className="text-3xl font-bold">Pokemons</h1>
@@ -34,61 +33,73 @@ export default function Pokemons() {
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 			</div>
 		</div>
