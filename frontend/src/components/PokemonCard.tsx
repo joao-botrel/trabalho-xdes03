@@ -5,6 +5,7 @@ import PokemonTipo from './PokemonTipo';
 import PokemonType from '@/types/pokemonType';
 
 import clsx from 'clsx';
+import Link from 'next/link';
 
 type Variants = 'md' | 'sm';
 
@@ -24,9 +25,10 @@ export default function PokemonCard({
 	variant = 'md',
 }: PokemonCardProps) {
 	return (
-		<div
+		<Link
+			href={`/pokemons/${numero}`}
 			className={clsx(
-				'flex flex-col gap-2 rounded-xl overflow-hidden shadow-lg bg-white p-2 pb-4',
+				'flex flex-col gap-2 rounded-xl overflow-hidden shadow-lg bg-white hover:bg-orange-50 transition duration-200 p-2 pb-4',
 				{
 					'w-64': variant === 'md',
 					'w-40': variant === 'sm',
@@ -51,7 +53,7 @@ export default function PokemonCard({
 					width={variant === 'md' ? 150 : 75}
 				/>
 			</div>
-			<div className="flex-1 bg-white">
+			<div className="flex-1">
 				<div className="flex flex-row gap-1">
 					{tipos.map((tipo, index) => (
 						<PokemonTipo key={index} tipo={tipo} />
@@ -59,6 +61,6 @@ export default function PokemonCard({
 				</div>
 				<p className="text-lg font-bold">{nome}</p>
 			</div>
-		</div>
+		</Link>
 	);
 }
