@@ -1,10 +1,15 @@
+'use client';
+
 import Image from 'next/image';
+
 import Charmander from '/public/img/charmander.png';
-import Charizard from '/public/img/charizard.png';
-import Charmeleon from '/public/img/charmeleon.png';
+
 import PokemonTipo from '@/components/PokemonTipo';
+import { useParams } from 'next/navigation';
 
 export default function Pokemon() {
+	const { id } = useParams();
+
 	return (
 		<div className="h-screen">
 			<section className="flex items-center h-fit max-w-6xl m-auto p-8 bg-orange-100/75 border-2 border-slate-300 rounded-xl w-fit">
@@ -25,7 +30,7 @@ export default function Pokemon() {
 							className="flex flex-col ml-8 w-[60%]"
 						>
 							<p id="numPokemon" className="text-bold text-xl">
-								N° 0004
+								N° {id}
 							</p>
 							<div className="flex">
 								<p
