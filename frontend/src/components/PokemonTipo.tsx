@@ -1,11 +1,22 @@
 import PokemonType from '@/types/pokemonType';
 
+import clsx from 'clsx';
+
+type Variants = 'md' | 'lg';
+
 type PokemonTipoProps = {
 	tipo: PokemonType;
+	variant?: Variants;
 };
 
-export default function PokemonTipo({ tipo }: PokemonTipoProps) {
-	const style = 'w-fit px-1 border rounded-md font-semibold text-sm';
+export default function PokemonTipo({
+	tipo,
+	variant = 'md',
+}: PokemonTipoProps) {
+	let style = clsx('w-fit px-1 border font-semibold text-sm', {
+		'w-fit px-1 text-sm rounded-md': variant === 'md',
+		'w-fit px-4 py-1 text-xl rounded-xl': variant === 'lg',
+	});
 
 	const cases = {
 		normal: (
