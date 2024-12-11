@@ -18,16 +18,19 @@ export default function Inicio() {
 								nome="Bulbasaur"
 								img=""
 								tipos={['grass', 'poison']}
+								numero={1}
 							/>
 							<PokemonCard
 								nome="Bulbasaur"
 								img=""
 								tipos={['fire', 'ice']}
+								numero={1}
 							/>
 							<PokemonCard
 								nome="Bulbasaur"
 								img=""
 								tipos={['ground', 'fighting']}
+								numero={1}
 							/>
 						</div>
 						<Link

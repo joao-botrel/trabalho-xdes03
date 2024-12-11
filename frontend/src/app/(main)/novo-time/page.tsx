@@ -4,6 +4,7 @@ import PokemonCard from '@/components/PokemonCard';
 import Search from '/public/img/search.svg';
 
 import Image from 'next/image';
+import CardVazio from '@/components/CardVazio';
 
 export default function NovoTime() {
 	return (
@@ -21,42 +22,62 @@ export default function NovoTime() {
 							<Image src={Search} alt="buscar" width={16} />
 						</Button>
 					</div>
-					<div className="grid grid-flow-row grid-cols-2 gap-4 overscroll-contain">
+					<div className="grid grid-flow-row grid-cols-2 gap-4 max-h-[500px] overflow-y-auto">
 						<PokemonCard
 							variant="sm"
 							nome="Bulbasaur"
 							img=""
 							tipos={['grass', 'poison']}
+							numero={1}
 						/>
 						<PokemonCard
 							variant="sm"
 							nome="Bulbasaur"
 							img=""
 							tipos={['grass', 'poison']}
+							numero={1}
 						/>
 						<PokemonCard
 							variant="sm"
 							nome="Bulbasaur"
 							img=""
 							tipos={['grass', 'poison']}
+							numero={1}
 						/>
 						<PokemonCard
 							variant="sm"
 							nome="Bulbasaur"
 							img=""
 							tipos={['grass', 'poison']}
+							numero={1}
 						/>
 						<PokemonCard
 							variant="sm"
 							nome="Bulbasaur"
 							img=""
 							tipos={['grass', 'poison']}
+							numero={1}
 						/>
 						<PokemonCard
 							variant="sm"
 							nome="Bulbasaur"
 							img=""
 							tipos={['grass', 'poison']}
+							numero={1}
+						/>
+						<PokemonCard
+							variant="sm"
+							nome="Bulbasaur"
+							img=""
+							tipos={['grass', 'poison']}
+							numero={1}
+						/>
+						<PokemonCard
+							variant="sm"
+							nome="Bulbasaur"
+							img=""
+							tipos={['grass', 'poison']}
+							numero={1}
 						/>
 					</div>
 				</div>
@@ -77,37 +98,14 @@ export default function NovoTime() {
 							nome="Bulbasaur"
 							img=""
 							tipos={['grass', 'poison']}
+							numero={1}
 						/>
-						<PokemonCard
-							variant="sm"
-							nome="Bulbasaur"
-							img=""
-							tipos={['grass', 'poison']}
-						/>
-						<PokemonCard
-							variant="sm"
-							nome="Bulbasaur"
-							img=""
-							tipos={['grass', 'poison']}
-						/>
-						<PokemonCard
-							variant="sm"
-							nome="Bulbasaur"
-							img=""
-							tipos={['grass', 'poison']}
-						/>
-						<PokemonCard
-							variant="sm"
-							nome="Bulbasaur"
-							img=""
-							tipos={['grass', 'poison']}
-						/>
-						<PokemonCard
-							variant="sm"
-							nome="Bulbasaur"
-							img=""
-							tipos={['grass', 'poison']}
-						/>
+						<CardVazio />
+						<CardVazio />
+						<CardVazio />
+						<CardVazio />
+
+						<CardVazio />
 					</div>
 				</div>
 				<div className="flex flex-col items-end w-full">

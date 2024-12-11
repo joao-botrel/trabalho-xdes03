@@ -23,18 +23,32 @@ export default function PokemonTipo({ tipo }: PokemonTipoProps) {
 			<p className={`${style} bg-purple-400 border-purple-700`}>Veneno</p>
 		),
 		ground: (
-			<p className={`${style} bg-amber-700 border-amber-900`}>
+			<p className={`${style} bg-amber-700 border-amber-900 text-white`}>
 				Terrestre
 			</p>
 		),
-		rock: <p className={`${style} bg-gray-700 border-gray-900`}>Pedra</p>,
-		bug: <p className={`${style} bg-green-700 border-green-900`}>Inseto</p>,
+		rock: (
+			<p className={`${style} bg-gray-700 border-gray-900 text-white`}>
+				Pedra
+			</p>
+		),
+		bug: (
+			<p className={`${style} bg-green-700 border-green-900 text-white`}>
+				Inseto
+			</p>
+		),
 		ghost: (
-			<p className={`${style} bg-purple-700 border-purple-900`}>
+			<p
+				className={`${style} bg-purple-700 border-purple-900 text-white`}
+			>
 				Fantasma
 			</p>
 		),
-		steel: <p className={`${style} bg-blue-700 border-blue-900`}>Aço</p>,
+		steel: (
+			<p className={`${style} bg-blue-700 border-blue-900 text-white`}>
+				Aço
+			</p>
+		),
 		grass: (
 			<p className={`${style} bg-green-400  border-green-700`}>Planta</p>
 		),
@@ -46,13 +60,21 @@ export default function PokemonTipo({ tipo }: PokemonTipoProps) {
 			</p>
 		),
 		psychic: (
-			<p className={`${style} bg-pink-700 border-pink-900`}>Psíquico</p>
+			<p className={`${style} bg-pink-700 border-pink-900 text-white`}>
+				Psíquico
+			</p>
 		),
 		ice: <p className={`${style} bg-blue-200 border-blue-500`}>Gelo</p>,
 		dragon: (
-			<p className={`${style} bg-blue-700 border-blue-900`}>Dragão</p>
+			<p className={`${style} bg-blue-700 border-blue-900 text-white`}>
+				Dragão
+			</p>
 		),
-		dark: <p className={`${style} bg-gray-600 border-gray-900`}>Sombrio</p>,
+		dark: (
+			<p className={`${style} bg-gray-600 border-gray-900 text-white`}>
+				Sombrio
+			</p>
+		),
 		fairy: <p className={`${style} bg-pink-200 border-pink-500`}>Fada</p>,
 	};
 

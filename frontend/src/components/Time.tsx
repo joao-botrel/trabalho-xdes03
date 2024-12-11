@@ -33,36 +33,42 @@ export default function Time({ variant }: TimeProps) {
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					variant="sm"
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					variant="sm"
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					variant="sm"
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					variant="sm"
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 				<PokemonCard
 					variant="sm"
 					nome="Bulbasaur"
 					img=""
 					tipos={['grass', 'poison']}
+					numero={1}
 				/>
 			</div>
 		</div>
