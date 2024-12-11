@@ -3,57 +3,49 @@ const prisma = new PrismaClient()
 
 export const criarPokemon = async (req, res) => {
     try {
-        if (!req.body || Object.keys(req.body).length === 0) {
+        if (!req.body || !Array.isArray(req.body) || req.body.length === 0) {
             return res.status(400).json({
-                msg: "O corpo da requisição está vazio.",
+                msg: "O corpo da requisição está vazio ou não é uma lista de Pokémon.",
             });
         }
 
-        const pokemonExistentePorNumero = await prisma.pokemon.findFirst({
-            where: { numero: req.body.numero },
+        const listaPokemons = req.body;
+
+        // Obter todos os números de Pokémon já existentes no banco
+        const pokemonsExistentes = await prisma.pokemon.findMany({
+            select: { numero: true },
         });
+        const numerosExistentes = pokemonsExistentes.map((p) => p.numero);
 
-        if (pokemonExistentePorNumero) {
+        // Filtrar a lista para evitar duplicação
+        const novosPokemons = listaPokemons.filter(
+            (pokemon) => !numerosExistentes.includes(pokemon.numero)
+        );
+
+        if (novosPokemons.length === 0) {
             return res.status(400).json({
-                msg: "Já existe um Pokémon com esse número.",
+                msg: "Todos os Pokémon enviados já existem no banco.",
             });
         }
 
-        const pokemonExistentePorNome = await prisma.pokemon.findFirst({
-            where: { nome: req.body.nome },
-        });
-
-        if (pokemonExistentePorNome) {
-            return res.status(400).json({
-                msg: "Já existe um Pokémon com esse nome.",
-            });
-        }
-
-        const pokemon = await prisma.pokemon.create({
-            data: {
-                numero: req.body.numero,
-                nome: req.body.nome,
-                tipo1: req.body.tipo1,
-                tipo2: req.body.tipo2,
-                gen: req.body.gen,
-                descricao: req.body.descricao,
-                foto: req.body.foto,
-                categoria: req.body.categoria,
-            },
+        // Adicionar os novos Pokémon ao banco
+        const pokemonsCriados = await prisma.pokemon.createMany({
+            data: novosPokemons,
+            skipDuplicates: true, // Proteção adicional contra duplicação
         });
 
         res.json({
-            data: pokemon,
-            msg: "Pokémon adicionado com sucesso no banco!",
+            msg: `${pokemonsCriados.count} Pokémon adicionados com sucesso!`,
         });
     } catch (error) {
-        console.error("Erro ao criar Pokémon:", error.message);
+        console.error("Erro ao adicionar Pokémon em massa:", error.message);
         res.status(500).json({
-            msg: "Erro ao criar Pokémon.",
+            msg: "Erro ao adicionar Pokémon em massa.",
             error: error.message,
         });
     }
-};
+}
+
 
 export const getPokemons = async (req, res) => {
     try {
