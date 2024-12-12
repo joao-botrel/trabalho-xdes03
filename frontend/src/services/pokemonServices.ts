@@ -24,11 +24,11 @@ interface PokemonSpecies {
   genera: Genus[];
 }
 
-// Função para adicionar Pokémon em massa
+
 const adicionarPokemons = async () => {
     try {
-        // 1. Obter lista básica de Pokémon
-        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=100&offset=0');
+        // 1. Obter lista de Pokémon entre 101 e 200
+        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=25&offset=100`);
         const listaPokemons = response.data.results;
 
         const listaParaEnvio: any[] = []; // Lista para armazenar os pokémons a serem enviados
