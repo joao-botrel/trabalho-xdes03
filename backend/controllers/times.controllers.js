@@ -23,6 +23,7 @@ export const criarTime = async (req, res) => {
         // Cria o time
         const time = await prisma.times.create({
             data: {
+                nomeTime: req.body.nomeTime,
                 nome1: req.body.nome1,
                 nome2: req.body.nome2,
                 nome3: req.body.nome3,
