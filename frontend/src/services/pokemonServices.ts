@@ -65,7 +65,7 @@ const adicionarPokemons = async () => {
         }
 
         // Enviar todos os Pokémon em uma única requisição
-        const respostaBackEnd = await axios.post('http://localhost:3004/pokemon', listaParaEnvio);
+        const respostaBackEnd = await axios.post('http://localhost:3005/pokemon', listaParaEnvio);
         console.log(respostaBackEnd.data.msg);
     } catch (error: any) {
         console.error('Erro ao adicionar Pokémon:', error.message);

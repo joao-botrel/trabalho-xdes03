@@ -47,7 +47,7 @@ export default function Pokemons() {
   const handleSearchByNumber = async () => {
     if (!idSearch) return;
     try {
-      const response = await axios.get(`http://localhost:3001/pokemon/numero/${idSearch}`);
+      const response = await axios.get(`http://localhost:3005/pokemon/numero/${idSearch}`);
       setSinglePokemon(response.data.data);
       setPokemons([]);
     } catch (error) {
@@ -58,7 +58,7 @@ export default function Pokemons() {
   const handleSearchByName = async () => {
     if (!nameSearch) return;
     try {
-      const response = await axios.get(`http://localhost:3001/pokemon?nome=${nameSearch}`);
+      const response = await axios.get(`http://localhost:3005/pokemon?nome=${nameSearch}`);
       setPokemons(response.data.data);
       setSinglePokemon(null);
     } catch (error) {
@@ -69,15 +69,15 @@ export default function Pokemons() {
   // Função para buscar Pokémons com filtros
   const fetchFilteredPokemons = async () => {
     try {
-      let url = 'http://localhost:3001/pokemon';
+      let url = 'http://localhost:3005/pokemon';
       if (filter) {
         // Modifica a URL com base no tipo de filtro
         if (filter.startsWith('gen')) {
           const gen = filter.split('-')[1]; // Geração
-          url = `http://localhost:3001/pokemon/gen/${gen}`;
+          url = `http://localhost:3005/pokemon/gen/${gen}`;
         } else if (filter.startsWith('tipo')) {
           const tipo = filter.split('=')[1]; // Tipo
-          url = `http://localhost:3001/pokemon/tipo?tipo1=${tipo}`;
+          url = `http://localhost:3005/pokemon/tipo?tipo1=${tipo}`;
         }
       }
       const response = await axios.get(url);
@@ -91,7 +91,7 @@ export default function Pokemons() {
   useEffect(() => {
     const fetchPokemons = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/pokemon');
+        const response = await axios.get('http://localhost:3005/pokemon');
         setPokemons(response.data.data);
       } catch (error) {
         console.error('Erro ao buscar os Pokémons:', error);

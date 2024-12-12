@@ -6,7 +6,7 @@ import timeRouter from './routes/times.routes.js'
 import cors from 'cors'
 
 const app = express()
-const port = 3004
+const port = 3005
 app.use(express.json());
 app.use(cors());
 

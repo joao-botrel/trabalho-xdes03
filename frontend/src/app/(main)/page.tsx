@@ -27,7 +27,7 @@ export default function Inicio() {
 
       // Fazer as requisições para pegar os Pokémons
       const pokemonRequests = randomNumbers.map((numero) =>
-        axios.get(`http://localhost:3001/pokemon/numero/${numero}`)
+        axios.get(`http://localhost:3005/pokemon/numero/${numero}`)
       );
 
       // Esperar todas as requisições

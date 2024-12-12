@@ -31,7 +31,7 @@ export default function NovoTime() {
 	useEffect(() => {
 		const fetchAllPokemons = async () => {
 			try {
-				const response = await axios.get('http://localhost:3004/pokemon');
+				const response = await axios.get('http://localhost:3005/pokemon');
 				setAllPokemons(response.data.data);
 				setFilteredPokemons(response.data.data);
 			} catch (error) {
@@ -75,7 +75,7 @@ export default function NovoTime() {
 		try {
 			const userId = 1; // Replace with actual user ID retrieval
 
-			const response = await axios.post('http://localhost:3004/times', {
+			const response = await axios.post('http://localhost:3005/times', {
 				nomeTime: teamName,
 				nome1: selectedPokemons[0]?.id,
 				nome2: selectedPokemons[1]?.id,
