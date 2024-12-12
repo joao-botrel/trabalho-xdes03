@@ -18,11 +18,12 @@ export default function Inicio() {
     const [pokemons, setPokemons] = useState<any[]>([]);
 
     useEffect(() => {
+     
   const fetchPokemons = async () => {
     try {
       // Gerar 3 números aleatórios entre 1 e 1008
       const randomNumbers = Array.from({ length: 3 }, () =>
-        Math.floor(Math.random() * 100) + 1
+        Math.floor(Math.random() * 1025) + 1
       );
 
       // Fazer as requisições para pegar os Pokémons
