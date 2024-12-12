@@ -34,7 +34,6 @@ export default function Inicio() {
       const responses = await Promise.all(pokemonRequests);
       const data = responses.map((response) => response.data); // Extrair os dados
       setPokemons(data); // Atualizar o estado com os dados dos Pokémons
-      console.log(data);
     } catch (error) {
       console.error('Erro ao buscar os Pokémons:', error);
     }
