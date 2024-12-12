@@ -18,31 +18,32 @@ export default function Inicio() {
     const [pokemons, setPokemons] = useState<any[]>([]);
 
     useEffect(() => {
-        // Chama a função para adicionar os Pokémons assim que o componente for montado
-        adicionarPokemons();
+  const fetchPokemons = async () => {
+    try {
+      // Gerar 3 números aleatórios entre 1 e 1008
+      const randomNumbers = Array.from({ length: 3 }, () =>
+        Math.floor(Math.random() * 100) + 1
+      );
 
-        const fetchPokemons = async () => {
-            try {
-              // Gerar 3 números aleatórios entre 1 e 1008
-              const randomNumbers = Array.from({ length: 3 }, () =>
-                Math.floor(Math.random() * 1008) + 1
-              );
-      
-              // Fazer as requisições para pegar os Pokémons
-              const pokemonRequests = randomNumbers.map((numero) =>
-                axios.get(`http://localhost:3001/pokemon/numero/${numero}`)
-              );
-      
-              // Esperar todas as requisições
-              const responses = await Promise.all(pokemonRequests);
-              setPokemons(responses.map((response) => response.data)); // Atualizar o estado com os dados dos Pokémons
-            } catch (error) {
-              console.error('Erro ao buscar os Pokémons:', error);
-            }
-          };
-      
-          fetchPokemons();
-    }, []); // O array vazio faz a função ser chamada apenas uma vez, quando o componente for carregado
+      // Fazer as requisições para pegar os Pokémons
+      const pokemonRequests = randomNumbers.map((numero) =>
+        axios.get(`http://localhost:3001/pokemon/numero/${numero}`)
+      );
+
+      // Esperar todas as requisições
+      const responses = await Promise.all(pokemonRequests);
+      const data = responses.map((response) => response.data); // Extrair os dados
+      setPokemons(data); // Atualizar o estado com os dados dos Pokémons
+      console.log(data);
+    } catch (error) {
+      console.error('Erro ao buscar os Pokémons:', error);
+    }
+  };
+
+  fetchPokemons(); // Chamada da função
+}, []); // O array vazio impede loops infinitos
+
+    
 
     return (
         <div className="flex flex-row h-fit w-5/6 max-w-6xl m-auto gap-20 p-8">
@@ -55,10 +56,10 @@ export default function Inicio() {
               {pokemons.length > 0 ? (
                 pokemons.map((pokemon) => (
                   <PokemonCard
-                    key={pokemon.numero} // A chave única pode ser o número do Pokémon
-                    nome={pokemon.nome}
-                    img={pokemon.foto} // Foto do Pokémon
-                    tipos={[pokemon.tipo1, pokemon.tipo2].filter(Boolean)} // Tipos, incluindo tipo2 caso exista
+                    key={pokemon.data.id} // A chave única pode ser o número do Pokémon
+                    nome={pokemon.data.nome.charAt(0).toUpperCase() + pokemon.data.nome.slice(1)} // Capitaliza a primeira letra do nome
+                    img={pokemon.data.foto} // Foto do Pokémon
+                    tipos={[pokemon.data.tipo1, pokemon.data.tipo2].filter(Boolean)} // Tipos, incluindo tipo2 caso exista
                   />
                 ))
               ) : (
