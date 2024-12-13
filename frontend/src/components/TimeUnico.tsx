@@ -33,7 +33,7 @@ type TimeProps = {
 const handleDelete = async (id: number, setUpdate: React.Dispatch<React.SetStateAction<boolean>>) => {
     try {
         await api.delete(`http://localhost:3005/times/${id}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
-        setUpdate(prev => !prev); // Toggle the update state to trigger useEffect
+        setUpdate(prev => !prev);
     } catch (error) {
         if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
             window.location.href = '/splash'; // Redireciona para a página inicial

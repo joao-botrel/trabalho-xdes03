@@ -60,7 +60,7 @@ export default function Pokemon() {
 				setPokemon(response.data.data);
 				setLoading(false);
 			} catch (err: any) {
-				if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+				if (axios.isAxiosError(err) && err.response && err.response.status === 401) {
 					window.location.href = '/splash'; // Redireciona para a página inicial
 				}
 				setError(err.message);

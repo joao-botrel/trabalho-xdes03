@@ -58,7 +58,7 @@ export default function PokemonCardDelete({
                 </div>
             )}
 
-            <Link href={`/pokemons/${numero}`} className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2">
                 <div
                     className={clsx(
                         'relative bg-green-100 flex items-center justify-center rounded-xl',
@@ -94,7 +94,7 @@ export default function PokemonCardDelete({
                     </div>
                     <p className="text-lg font-bold">{nome}</p>
                 </div>
-            </Link>
+            </div>
         </div>
     );
 }

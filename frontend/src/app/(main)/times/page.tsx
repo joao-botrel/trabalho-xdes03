@@ -42,8 +42,8 @@ export default function Times() {
 	useEffect(() => {
 		const fetchTeams = async () => {
 			try {
-				// Assuming you have user authentication and can get the user ID
-				const userId = localStorage.getItem('userId'); // Replace with actual user ID retrieval
+				
+				const userId = localStorage.getItem('userId');
 
 				const response = await axios.get('http://localhost:3005/times/' + userId, {
 					params: { usuario: userId },
@@ -77,7 +77,7 @@ export default function Times() {
 	const handleDelete = async (id: number) => {
 		try {
 			await axios.delete(`http://localhost:3005/times/${id}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
-			setUpdate(prev => !prev); // Toggle the update state to trigger useEffect
+			setUpdate(prev => !prev); 
 			setIsModalOpen(false);
 		} catch (error) {
 			if (axios.isAxiosError(error) && error.response && error.response.status === 401) {

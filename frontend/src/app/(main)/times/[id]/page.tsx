@@ -32,7 +32,6 @@ export default function NovoTime() {
     const [selectedPokemonForTeam, setSelectedPokemonForTeam] = useState<Pokemon | null>(null);
     const [update, setUpdate] = useState(false);
 
-    // Fetch all Pokémon on component mount
     useEffect(() => {
         const fetchAllPokemons = async () => {
             try {
@@ -87,7 +86,6 @@ export default function NovoTime() {
 
 
 
-    // Filter Pokémon based on search term
     useEffect(() => {
         const filtered = allPokemons.filter(pokemon =>
             pokemon.nome.toLowerCase().includes(searchTerm.toLowerCase())
@@ -95,12 +93,10 @@ export default function NovoTime() {
         setFilteredPokemons(filtered);
     }, [searchTerm, allPokemons]);
 
-    // Select Pokémon for team
     const selectPokemonForTeam = (pokemon: Pokemon) => {
         setSelectedPokemonForTeam(pokemon);
     };
 
-    // Add Pokémon to team
     const addPokemonToTeam = () => {
         if (selectedPokemonForTeam && selectedPokemons.length < 6) {
             setSelectedPokemons([...selectedPokemons, selectedPokemonForTeam]);
@@ -109,7 +105,6 @@ export default function NovoTime() {
         }
     };
 
-    // Remove Pokémon from team
     const removePokemonFromTeam = (pokemon: Pokemon) => {
         const newSelectedPokemons = selectedPokemons.filter(p => p.id !== pokemon.id);
         setSelectedPokemons(newSelectedPokemons);
@@ -117,10 +112,9 @@ export default function NovoTime() {
         setUpdate(prev => !prev);
     };
 
-    // Save team
     const handleSaveTeam = async () => {
         try {
-            const userId = localStorage.getItem("userId"); // Replace with actual user ID retrieval
+            const userId = localStorage.getItem("userId");
 
             const response = await axios.put('http://localhost:3005/times/' + id, {
                 nomeTime: teamName,
@@ -133,7 +127,7 @@ export default function NovoTime() {
             }, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
 
             alert('Time Editado com sucesso!');
-            // Optional: reset form or navigate
+            
             window.location.href = '/times';
         } catch (error) {
             if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
