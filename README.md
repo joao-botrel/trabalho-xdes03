@@ -72,7 +72,7 @@ git clone https://github.com/joao-botrel/trabalho-xdes03.git
     npm run dev
      ```
 
-5. Acesse a pasta frontend e inicie a PokeDes no navegador:
+5. Abra outro terminal, acesse a pasta frontend e inicie a PokeDes no navegador:
  ```bash
  cd frontend
  npm run dev
