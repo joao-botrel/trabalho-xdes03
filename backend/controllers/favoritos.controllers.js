@@ -71,6 +71,51 @@ export const getFavoritoPorUsuario = async (req, res) => {
     }
 };
 
+export const getFavoritoByPokemon = async (req, res) => {
+    try {
+        const usuarioId = parseInt(req.params.usuarioId);
+        const pokemonId = parseInt(req.params.pokemonId);
+
+        // Verifica se os parâmetros são válidos
+        if (isNaN(usuarioId) || isNaN(pokemonId)) {
+            return res.status(400).json({ msg: "IDs fornecidos devem ser números válidos." });
+        }
+
+        // Verifica se o usuário existe
+        const usuarioExistente = await prisma.usuario.findUnique({
+            where: {
+                id: usuarioId
+            }
+        });
+
+        if (!usuarioExistente) {
+            return res.status(404).json({ msg: "Usuário não encontrado." });
+        }
+
+        // Verifica se o Pokémon está na lista de favoritos do usuário
+        const favoritoExistente = await prisma.favoritos.findFirst({
+            where: {
+                usuarioId: usuarioId,
+                nome: pokemonId
+            }
+        });
+
+        if (!favoritoExistente) {
+            return res.status(404).json({ msg: "O Pokémon não está na lista de favoritos do usuário." });
+        }
+
+        // Retorna o favorito encontrado
+        res.json({
+            data: favoritoExistente,
+            msg: "Pokémon encontrado na lista de favoritos do usuário!"
+        });
+    } catch (error) {
+        console.error("Erro ao verificar favorito:", error.message);
+        res.status(500).json({ msg: "Erro ao verificar favorito.", error: error.message });
+    }
+};
+
+
 export const deletarFavorito = async (req, res) => {
     try {
         const favoritoId = parseInt(req.params.favoritoId);

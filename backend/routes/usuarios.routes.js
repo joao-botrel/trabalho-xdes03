@@ -20,10 +20,10 @@ const upload = multer({storage: storage})
 router.post('/usuarios', usuarioController.criarUsuario)
 router.post('/usuarios/login', usuarioController.login)
 router.put('/usuarios/:usuarioId', upload.single('fotoPerfil'), usuarioController.atualizarUsuario)
-router.delete('/usuarios/:usuarioId', autorizarUsuario, usuarioController.deletarUsuario)
-router.get('/usuarios', autorizarAdmin, usuarioController.getUsuarios)
+router.delete('/usuarios/:usuarioId', autorizarUsuario,  usuarioController.deletarUsuario)
+router.get('/usuarios', usuarioController.getUsuarios)
 router.get('/usuarios/:usuarioId', usuarioController.getUsuarioPorId)
-router.post('/usuarios/logout', autorizarUsuario, usuarioController.logout)
+router.post('/usuarios/logout', autorizarUsuario,  usuarioController.logout)
 
 
 export default router

@@ -22,12 +22,6 @@ export const criarPokemon = async (req, res) => {
             (pokemon) => !numerosExistentes.includes(pokemon.numero)
         );
 
-        if (novosPokemons.length === 0) {
-            return res.status(400).json({
-                msg: "Todos os Pokémon enviados já existem no banco.",
-            });
-        }
-
         // Adicionar os novos Pokémon ao banco
         const pokemonsCriados = await prisma.pokemon.createMany({
             data: novosPokemons,

@@ -1,18 +1,17 @@
 import Image from 'next/image';
-import bulbasauro from '/public/img/bulbasaur.png';
 import PokemonTipo from './PokemonTipo';
-
 import PokemonType from '@/types/pokemonType';
-
 import clsx from 'clsx';
+import Link from 'next/link';
 
 type Variants = 'md' | 'sm';
 
 type PokemonCardProps = {
 	nome: string;
 	tipos: PokemonType[];
-	img: string;
+	img: string; // URL da imagem do Pokémon
 	variant?: Variants;
+	numero: number;
 };
 
 export default function PokemonCard({
@@ -20,11 +19,15 @@ export default function PokemonCard({
 	tipos,
 	img,
 	variant = 'md',
+	numero,
 }: PokemonCardProps) {
+	const isValidImage = img && img.trim() !== ''; // Verifica se a URL da imagem é válida
+
 	return (
-		<div
+		<Link
+			href={`/pokemons/${numero}`}
 			className={clsx(
-				'flex flex-col gap-2 rounded-xl overflow-hidden shadow-lg bg-white p-2 pb-4',
+				'flex flex-col gap-2 rounded-xl overflow-hidden shadow-lg bg-white hover:bg-orange-50 transition duration-200 p-2 pb-4',
 				{
 					'w-64': variant === 'md',
 					'w-40': variant === 'sm',
@@ -33,27 +36,45 @@ export default function PokemonCard({
 		>
 			<div
 				className={clsx(
-					'bg-green-100 flex items-center justify-center rounded-xl',
+					'bg-green-100 flex items-center justify-center rounded-xl relative',
 					{
 						'h-40': variant === 'md',
 						'h-20': variant === 'sm',
 					}
 				)}
 			>
-				<Image
-					src={bulbasauro}
-					alt={`Imagem do Pokémon ${nome}`}
-					width={variant === 'md' ? 150 : 75}
-				/>
+				<p className="absolute bottom-0 left-0 text-sm font-semibold p-2">
+					Nº {numero}
+				</p>
+				{isValidImage ? (
+					<Image
+						src={img} // Renderiza a imagem somente se for válida
+						alt={`Imagem do Pokémon ${nome}`}
+						width={variant === 'md' ? 150 : 75}
+						height={variant === 'md' ? 150 : 75} // Altura é obrigatória para evitar warnings
+					/>
+				) : (
+					<div
+						className={clsx(
+							'bg-gray-200 flex items-center justify-center text-gray-500',
+							{
+								'h-40 w-40': variant === 'md',
+								'h-20 w-20': variant === 'sm',
+							}
+						)}
+					>
+						Imagem não disponível
+					</div>
+				)}
 			</div>
-			<div className="flex-1 bg-white">
+			<div className="flex-1">
 				<div className="flex flex-row gap-1">
-					{tipos.map((tipo, index) => (
-						<PokemonTipo key={index} tipo={tipo} />
+					{tipos.map((tipo) => (
+						<PokemonTipo key={tipo} tipo={tipo} /> // Tipo como chave única
 					))}
 				</div>
 				<p className="text-lg font-bold">{nome}</p>
 			</div>
-		</div>
+		</Link>
 	);
 }

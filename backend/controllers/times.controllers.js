@@ -23,6 +23,7 @@ export const criarTime = async (req, res) => {
         // Cria o time
         const time = await prisma.times.create({
             data: {
+                nomeTime: req.body.nomeTime,
                 nome1: req.body.nome1,
                 nome2: req.body.nome2,
                 nome3: req.body.nome3,
@@ -81,6 +82,31 @@ export const getTimePorUsuario = async (req, res) => {
     }
 };
 
+export const getTimesPorId = async (req, res) => {
+    try {
+        const timeId = parseInt(req.params.timeId);
+
+        if (isNaN(timeId)) {
+            return res.status(400).json({ msg: "O ID do time deve ser um número válido." });
+        }
+
+        const time = await prisma.times.findUnique({
+            where: { id: timeId },
+        });
+
+        res.json({
+            data: time,
+            msg: "Time encontrado com sucesso!",
+        });
+    } catch (error) {
+        console.error("Erro ao buscar time:", error.message);
+        res.status(500).json({
+            msg: "Erro ao buscar time.",
+            error: error.message,
+        });
+    }
+}
+
 export const deletarTime = async (req, res) => {
     try {
         const timeId = parseInt(req.params.timeId);
@@ -136,6 +162,7 @@ export const atualizarTime = async (req, res) => {
                 id: timeId,
             },
             data: {
+                nomeTime: req.body.nomeTime,
                 nome1: req.body.nome1,
                 nome2: req.body.nome2,
                 nome3: req.body.nome3,

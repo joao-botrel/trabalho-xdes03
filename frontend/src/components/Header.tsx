@@ -43,6 +43,12 @@ export default function Header() {
 									Editar Perfil
 								</Link>
 								<Link
+									onClick={({ }) => {
+										localStorage.removeItem('token');
+										localStorage.removeItem('userId');
+										localStorage.removeItem('senha');
+									}
+									}
 									href="/splash"
 									className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
 								>

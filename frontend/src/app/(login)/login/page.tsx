@@ -1,16 +1,51 @@
+'use client';
 import Image from 'next/image';
-import Pikacu from '/public/img/detetivePikachu.png';
+import Pikachu from '/public/img/detetivePikachu.png';
+import logar from '@/server/login';
+import { z } from 'zod';
+import { useState } from 'react';
+
+const LoginSchema = z.object({
+	email: z.string().email('Formato de email inválido'),
+	senha: z.string().trim().min(4, {message: 'Senha deve ter no mínimo 4 caracteres'}),
+})
 
 export default function Login() {
+
+	const [email, setEmail] = useState('');
+	const [senha, setSenha] = useState('');
+
+	const handleSubmit = async () => {
+		const response =  logar.loginUsuario({ 
+			email, 
+			senha 
+		});
+
+		const validation = LoginSchema.safeParse({ email, senha });
+
+	if(!validation.success) {
+		let errorMsg = "";
+
+            validation.error.issues.forEach((issue) => {
+                errorMsg = errorMsg + issue.message + '.\n';
+            })
+
+            alert(errorMsg);
+            return;
+	}
+		console.log(response);
+	};
+
+
 	return (
 		<div className="flex gap-12 mx-24 mt-12 justify-center">
 			<Image
-				src={Pikacu}
+				src={Pikachu}
 				alt="Pikachu usando uma lupa e com um chapéu marrom de detetive"
 				width={512}
 			/>
 
-			<form className="flex flex-col border-2 rounded-xl place-items-center w-fit px-16 justify-center">
+			<div className="flex flex-col border-2 rounded-xl place-items-center w-fit px-16 justify-center">
 				<h1 className="mb-12 text-3xl font-bold mt-4">Login</h1>
 				<div className="flex flex-col">
 					<label htmlFor="email" className="ml-1 font-medium">
@@ -22,6 +57,7 @@ export default function Login() {
 						id="email"
 						placeholder="Digite seu e-mail"
 						className="border-2 h-12 rounded-xl p-1.5 w-80 mb-12"
+						onChange ={(e) => setEmail(e.target.value)}
 					/>
 				</div>
 
@@ -35,10 +71,11 @@ export default function Login() {
 						id="senha"
 						placeholder="Digite sua senha"
 						className="border-2 h-12 rounded-xl p-1.5 w-80 mb-12"
+						onChange ={(e) => setSenha(e.target.value)}
 					/>
 				</div>
 
-				<button
+				<button onClick={handleSubmit}
 					className="border-2 w-40 h-12 p-2 bg-orange-500 rounded-lg 
             text-white text-lg font-bold hover:bg-orange-700 transition duration-200"
 				>
@@ -54,7 +91,7 @@ export default function Login() {
 						Registre-se!
 					</a>
 				</p>
-			</form>
+			</div>
 		</div>
 	);
 }
