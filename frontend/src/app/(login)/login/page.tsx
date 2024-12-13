@@ -2,10 +2,16 @@
 import Image from 'next/image';
 import Pikachu from '/public/img/detetivePikachu.png';
 import logar from '@/server/login';
+import { z } from 'zod';
 import { useState } from 'react';
 
+const LoginSchema = z.object({
+	email: z.string().email('Formato de email inválido'),
+	senha: z.string().trim().min(4, {message: 'Senha deve ter no mínimo 4 caracteres'}),
+})
 
 export default function Login() {
+
 	const [email, setEmail] = useState('');
 	const [senha, setSenha] = useState('');
 
@@ -14,6 +20,19 @@ export default function Login() {
 			email, 
 			senha 
 		});
+
+		const validation = LoginSchema.safeParse({ email, senha });
+
+	if(!validation.success) {
+		let errorMsg = "";
+
+            validation.error.issues.forEach((issue) => {
+                errorMsg = errorMsg + issue.message + '.\n';
+            })
+
+            alert(errorMsg);
+            return;
+	}
 		console.log(response);
 	};
 
