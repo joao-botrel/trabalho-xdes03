@@ -19,7 +19,6 @@ export const criarUsuario = async (req, res) => {
                 perfil: {
                     create: {
                         nome: req.body.nome,
-                        bio: req.body.bio,
                     },
                 },
             },
@@ -101,7 +100,6 @@ export const atualizarUsuario = async (req, res) => {
         // Prepara os objetos de atualização
         const atualizacoesPerfil = {};
         if (req.body.nome) atualizacoesPerfil.nome = req.body.nome;
-        if (req.body.bio) atualizacoesPerfil.bio = req.body.bio;
         if (req.file) atualizacoesPerfil.fotoPerfil = req.file.path;
 
         const atualizacoesUsuario = {};
