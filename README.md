@@ -27,7 +27,7 @@ Não se preocupe mais, a Poke-Des está aqui para te auxiliar!
 
 ### 3. Favoritar Pokémons
 - Adicione até 6 Pokémons à sua lista de favoritos para acessá-los rapidamente.
-- Gerencie a lista de favoritos com facilidade.
+- Gerencie seus Pokémons mais queridos com facilidade!
 
 ## Tecnologias Utilizadas
 - **Frontend:** [React.js](https://react.dev/)
@@ -55,13 +55,22 @@ git clone https://github.com/joao-botrel/trabalho-xdes03.git
 
 3. Configure as variáveis de ambiente:
    - Crie um arquivo `.env` na raiz do projeto.
-   - Adicione as variáveis necessárias, como a URL do banco de dados e chaves de API.
+   - Adicione as variáveis necessárias, como a URL do banco de dados e o JWT_SECRET.
 
 4. Vá para a pasta backend e inicie o servidor:
-```bash
-cd backend
-npm run dev
- ```
+    <br /><br />Se for sua primeira vez rodando:
+   ```bash
+   cd backend
+   npx prisma db push
+   npx prisma migrate dev
+   npm run dev
+   ```
+    
+    Caso contrário:
+    ```bash
+    cd backend
+    npm run dev
+     ```
 
 5. Acesse a pasta frontend e inicie a PokeDes no navegador:
  ```bash
