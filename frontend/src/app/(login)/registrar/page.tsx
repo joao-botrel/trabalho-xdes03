@@ -17,7 +17,6 @@ export default function Registrar() {
 			nome,
 			email,
 			senha,
-			confirmarSenha,
 		});
 		console.log(response);
 	};
