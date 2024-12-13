@@ -104,6 +104,10 @@ export default function Pokemons() {
     }
   }, [filter]);
 
+  const handleRefreshPage = () => {
+    window.location.reload();
+  };
+
   return (
     <div className="flex flex-col items-center h-fit w-5/6 max-w-6xl m-auto gap-20 p-8 bg-gray-100/75 border-2 border-slate-300 rounded-xl">
       <div className="flex flex-row justify-between w-full">
@@ -203,6 +207,12 @@ export default function Pokemons() {
               </div>
             )}
           </div>
+          <button
+            onClick={handleRefreshPage}
+            className="bg-red-400 hover:bg-red-500 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold"
+          >
+            Limpar
+          </button>
         </div>
       </div>
       <div className="grid grid-flow-row grid-cols-3 gap-y-8 gap-x-16 w-fit">
