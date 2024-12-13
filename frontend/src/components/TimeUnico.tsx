@@ -8,6 +8,8 @@ import clsx from 'clsx';
 import PokemonType from '@/types/pokemonType';
 import Link from 'next/link';
 import api from '@/server/api';
+import axios from 'axios';
+import router from 'next/router';
 
 type Variant = 'horizontal' | 'grid';
 
@@ -30,12 +32,15 @@ type TimeProps = {
 
 const handleDelete = async (id: number, setUpdate: React.Dispatch<React.SetStateAction<boolean>>) => {
     try {
-      await api.delete(`http://localhost:3005/times/${id}`);
-      setUpdate(prev => !prev); // Toggle the update state to trigger useEffect
+        await api.delete(`http://localhost:3005/times/${id}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
+        setUpdate(prev => !prev); // Toggle the update state to trigger useEffect
     } catch (error) {
-      console.error('Erro ao deletar time:', error);
+        if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+            window.location.href = '/splash'; // Redireciona para a página inicial
+        }
+        console.error('Erro ao deletar time:', error);
     }
-  };
+};
 
 export default function Time({
     variant = 'horizontal',

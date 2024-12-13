@@ -8,6 +8,7 @@ import { useParams } from 'next/navigation';
 
 import StarEmpty from '/public/img/star.svg';
 import StarFilled from '/public/img/star-filled.svg';
+import router from 'next/router';
 
 type PokemonType =
 	| 'fire'
@@ -52,11 +53,14 @@ export default function Pokemon() {
 			try {
 				// Requisição para pegar os dados do Pokémon
 				const response = await axios.get<{ data: Pokemon }>(
-					`http://localhost:3005/pokemon/numero/${id}`
+					`http://localhost:3005/pokemon/numero/${id}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } }
 				);
 				setPokemon(response.data.data);
 				setLoading(false);
 			} catch (err: any) {
+				if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+					window.location.href = '/splash'; // Redireciona para a página inicial
+				}
 				setError(err.message);
 				setLoading(false);
 			}
@@ -69,7 +73,7 @@ export default function Pokemon() {
 				try {
 					// Faz a requisição para pegar a lista de favoritos
 					const response = await axios.get(
-						`http://localhost:3005/favoritos/${perfilId}`
+						`http://localhost:3005/favoritos/${perfilId}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } }
 					);
 					const favoritos = response.data.data;
 					// Verifica se o Pokémon está na lista de favoritos
@@ -79,6 +83,9 @@ export default function Pokemon() {
 					);
 					setIsFavorite(!favorite); // Se o Pokémon estiver favoritado, setIsFavorite será true
 				} catch (err: any) {
+					if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+						window.location.href = '/splash'; // Redireciona para a página inicial
+						}
 				}
 			}
 		};
@@ -95,7 +102,7 @@ export default function Pokemon() {
 			try {
 				if (isFavorite) {
 					const response = await axios.get(
-						`http://localhost:3005/favoritos/${perfilId}`
+						`http://localhost:3005/favoritos/${perfilId}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } }
 					);
 					const favoritos = response.data.data;
 					// Encontra o favoritoId do Pokémon
@@ -105,7 +112,7 @@ export default function Pokemon() {
 					if (favorite) {
 						// Deleta o Pokémon da lista de favoritos usando o favoritoId
 						await axios.delete(
-							`http://localhost:3005/favoritos/${favorite.id}`
+							`http://localhost:3005/favoritos/${favorite.id}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } }
 						);
 						setIsFavorite(false);
 					} else {
@@ -116,10 +123,13 @@ export default function Pokemon() {
 					await axios.post('http://localhost:3005/favoritos', {
 						nome: parseInt(id),
 						usuario: perfilId,
-					});
+					}, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
 					setIsFavorite(true);
 				}
 			} catch (err: any) {
+				if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+					window.location.href = '/splash'; // Redireciona para a página inicial
+					}
 				setError(err.message);
 			}
 		}

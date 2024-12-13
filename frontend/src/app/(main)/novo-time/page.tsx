@@ -10,6 +10,7 @@ import Search from '/public/img/search.svg';
 import { ChevronRightIcon, ChevronLeftIcon } from 'lucide-react';
 import PokemonType from '@/types/pokemonType';
 import PokemonCardDelete from '@/components/PokemonCardDelete';
+import router from 'next/router';
 
 type Pokemon = {
 	id: number;
@@ -33,10 +34,13 @@ export default function NovoTime() {
 	useEffect(() => {
 		const fetchAllPokemons = async () => {
 			try {
-				const response = await axios.get('http://localhost:3005/pokemon');
+				const response = await axios.get('http://localhost:3005/pokemon', { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
 				setAllPokemons(response.data.data);
 				setFilteredPokemons(response.data.data);
 			} catch (error) {
+				if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+					window.location.href = '/splash'; // Redireciona para a página inicial
+				}
 				console.error('Erro ao buscar todos os Pokémons:', error);
 			}
 		};
@@ -46,13 +50,16 @@ export default function NovoTime() {
 	useEffect(() => {
 		const fetchUnselectedPokemons = async () => {
 			try {
-				const response = await axios.get('http://localhost:3005/pokemon');
+				const response = await axios.get('http://localhost:3005/pokemon', { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
 				const unselectedPokemons: Pokemon[] = response.data.data.filter(
 					(pokemon: Pokemon) => !selectedPokemons.some((selected: Pokemon) => selected.id === pokemon.id)
 				);
 				setAllPokemons(unselectedPokemons);
 				setFilteredPokemons(unselectedPokemons);
 			} catch (error) {
+				if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+					window.location.href = '/splash'; // Redireciona para a página inicial
+				}
 				console.error('Erro ao buscar todos os Pokémons:', error);
 			}
 		};
@@ -101,13 +108,16 @@ export default function NovoTime() {
 				nome3: selectedPokemons[2]?.numero,
 				nome4: selectedPokemons[3]?.numero,
 				nome5: selectedPokemons[4]?.numero,
-				nome6: selectedPokemons[5]?.numero ,
+				nome6: selectedPokemons[5]?.numero,
 				usuario: userId
-			});
+			}, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
 
 			alert('Time criado com sucesso!');
 			// Optional: reset form or navigate
 		} catch (error) {
+			if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+				window.location.href = '/splash'; // Redireciona para a página inicial
+			}
 			console.error('Erro ao criar time:', error);
 			alert('Erro ao criar time');
 		}
@@ -194,7 +204,7 @@ export default function NovoTime() {
 					<Button
 						color="blue"
 						onClick={handleSaveTeam}
-						disabled={selectedPokemons.length <6 || !teamName}
+						disabled={selectedPokemons.length < 6 || !teamName}
 					>
 						Salvar
 					</Button>

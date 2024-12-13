@@ -14,6 +14,8 @@ function criarUsuario({ nome, email, senha }: Usuario) {
 			localStorage.setItem('token', response.data.token);
 			localStorage.setItem('userId', response.data.data.perfilId);
 			localStorage.setItem('senha', response.data.data.senha);
+			// Redirecionar para a página desejada
+			window.location.href = '/';
 		})
 		.catch((error) => {
 			console.error('Erro ao criar usuário:', error);

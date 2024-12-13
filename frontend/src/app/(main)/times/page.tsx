@@ -6,6 +6,7 @@ import Time from '@/components/Time';
 import PokemonType from '@/types/pokemonType';
 import api from '@/server/api';
 import Link from 'next/link';
+import router from 'next/router';
 
 type Pokemon = {
 	id: number;
@@ -45,7 +46,8 @@ export default function Times() {
 				const userId = 1; // Replace with actual user ID retrieval
 
 				const response = await axios.get('http://localhost:3005/times/' + userId, {
-					params: { usuario: userId }
+					params: { usuario: userId },
+					headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') }
 				});
 
 				setTeams(response.data.data);
@@ -57,11 +59,14 @@ export default function Times() {
 				var pokemonsList: Pokemon[] = [];
 				for (var i = 0; i < pokemonsId.length; i++) {
 					console.log(pokemonsId[i]);
-					const pokemon = await axios.get(`http://localhost:3005/pokemon/numero/${pokemonsId[i]}`);
+					const pokemon = await axios.get(`http://localhost:3005/pokemon/numero/${pokemonsId[i]}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
 					pokemonsList.push(pokemon.data.data);
 				}
 				setPokemons(pokemonsList);
 			} catch (error) {
+				if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+					window.location.href = '/splash'; // Redireciona para a página inicial
+				}
 				console.error('Erro ao buscar Times:', error);
 				setIsLoading(false);
 			}
@@ -72,10 +77,13 @@ export default function Times() {
 
 	const handleDelete = async (id: number) => {
 		try {
-			await axios.delete(`http://localhost:3005/times/${id}`);
+			await axios.delete(`http://localhost:3005/times/${id}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
 			setUpdate(prev => !prev); // Toggle the update state to trigger useEffect
-			setIsModalOpen(false);	
+			setIsModalOpen(false);
 		} catch (error) {
+			if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+				window.location.href = '/splash'; // Redireciona para a página inicial
+			}
 			console.error('Erro ao deletar time:', error);
 		}
 	};
@@ -83,12 +91,12 @@ export default function Times() {
 	const openModal = (id: number) => {
 		setTeamToDelete(id);
 		setIsModalOpen(true);
-	  };
-	
-	  const closeModal = () => {
+	};
+
+	const closeModal = () => {
 		setIsModalOpen(false);
 		setTeamToDelete(null);
-	  };
+	};
 
 	if (isLoading) {
 		return (
@@ -103,8 +111,8 @@ export default function Times() {
 			<div className="flex flex-col items-center h-fit w-fit max-w-6xl m-auto p-8 bg-orange-100/75 border-2 border-slate-300 rounded-xl">
 				<div className="flex flex-col items-start gap-10">
 					<div className='flex flex-row justify-between w-full'>
-					<h1 className="text-3xl font-bold">Times</h1>
-					<Link href={"/novo-time"} className='bg-orange-400 hover:bg-orange-500 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold'>Criar novo time</Link>
+						<h1 className="text-3xl font-bold">Times</h1>
+						<Link href={"/novo-time"} className='bg-orange-400 hover:bg-orange-500 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold'>Criar novo time</Link>
 					</div>
 					{teams.length === 0 ? (
 						<p className="text-gray-600">Você ainda não criou nenhum time</p>

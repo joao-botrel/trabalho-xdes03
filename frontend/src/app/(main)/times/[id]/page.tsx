@@ -11,6 +11,7 @@ import { ChevronRightIcon, ChevronLeftIcon } from 'lucide-react';
 import PokemonType from '@/types/pokemonType';
 import PokemonCardDelete from '@/components/PokemonCardDelete';
 import { useParams } from 'next/navigation';
+import router from 'next/router';
 
 type Pokemon = {
     id: number;
@@ -35,14 +36,14 @@ export default function NovoTime() {
     useEffect(() => {
         const fetchAllPokemons = async () => {
             try {
-                const response = await axios.get('http://localhost:3005/pokemon');
-                const time = await axios.get('http://localhost:3005/times/id/' + id);
+                const response = await axios.get('http://localhost:3005/pokemon', { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
+                const time = await axios.get('http://localhost:3005/times/id/' + id, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
                 setTeamName(time.data.data.nomeTime);
                 var pokemonsId: Number[] = [];
                 pokemonsId.push(time.data.data.nome1!, time.data.data.nome2!, time.data.data.nome3!, time.data.data.nome4!, time.data.data.nome5!, time.data.data.nome6!);
                 var pokemonsList: Pokemon[] = [];
                 for (var i = 0; i < 6; i++) {
-                    const pokemon = await axios.get(`http://localhost:3005/pokemon/numero/${pokemonsId[i]}`);
+                    const pokemon = await axios.get(`http://localhost:3005/pokemon/numero/${pokemonsId[i]}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
                     console.log(pokemon.data.data);
                     pokemonsList.push(pokemon.data.data);
                 }
@@ -56,6 +57,9 @@ export default function NovoTime() {
 
                 setSelectedPokemonForTeam(null);
             } catch (error) {
+                if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+                    window.location.href = '/splash'; // Redireciona para a página inicial
+                }
                 console.error('Erro ao buscar todos os Pokémons:', error);
             }
         };
@@ -65,13 +69,16 @@ export default function NovoTime() {
     useEffect(() => {
         const fetchUnselectedPokemons = async () => {
             try {
-                const response = await axios.get('http://localhost:3005/pokemon');
+                const response = await axios.get('http://localhost:3005/pokemon', { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
                 const unselectedPokemons: Pokemon[] = response.data.data.filter(
                     (pokemon: Pokemon) => !selectedPokemons.some((selected: Pokemon) => selected.id === pokemon.id)
                 );
                 setAllPokemons(unselectedPokemons);
                 setFilteredPokemons(unselectedPokemons);
             } catch (error) {
+                if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+                    window.location.href = '/splash'; // Redireciona para a página inicial
+                }
                 console.error('Erro ao buscar todos os Pokémons:', error);
             }
         };
@@ -123,12 +130,15 @@ export default function NovoTime() {
                 nome4: selectedPokemons[3]?.numero,
                 nome5: selectedPokemons[4]?.numero,
                 nome6: selectedPokemons[5]?.numero,
-            });
+            }, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
 
             alert('Time Editado com sucesso!');
             // Optional: reset form or navigate
             window.location.href = '/times';
         } catch (error) {
+            if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+                window.location.href = '/splash'; // Redireciona para a página inicial
+            }
             console.error('Erro ao criar time:', error);
             alert('Erro ao criar time');
         }
