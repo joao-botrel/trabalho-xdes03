@@ -50,10 +50,11 @@ export default function Pokemon() {
 	useEffect(() => {
 		const fetchPokemon = async () => {
 			try {
+				// Requisição para pegar os dados do Pokémon
 				const response = await axios.get<{ data: Pokemon }>(
 					`http://localhost:3005/pokemon/numero/${id}`
 				);
-				setPokemon(response.data.data); // Acessa a propriedade `data` do response
+				setPokemon(response.data.data);
 				setLoading(false);
 			} catch (err: any) {
 				setError(err.message);
@@ -61,8 +62,68 @@ export default function Pokemon() {
 			}
 		};
 
+		const checkIfFavorite = async () => {
+			const perfilId = 1;
+			//localStorage.getItem('usuarioId'); // Recupera o ID do usuário do localStorage
+			if (perfilId && id && typeof id === 'string') {
+				try {
+					// Faz a requisição para pegar a lista de favoritos
+					const response = await axios.get(
+						`http://localhost:3005/favoritos/${perfilId}`
+					);
+					const favoritos = response.data.data;
+					// Verifica se o Pokémon está na lista de favoritos
+					const favorite = favoritos.find(
+						(favorite: { pokemonId: number }) =>
+							favorite.pokemonId === parseInt(id)
+					);
+					setIsFavorite(!favorite); // Se o Pokémon estiver favoritado, setIsFavorite será true
+				} catch (err: any) {
+				}
+			}
+		};
+
+		// Chama as duas funções após o componente ser montado
 		fetchPokemon();
+		checkIfFavorite();
 	}, [id]);
+
+	const toggleFavorite = async () => {
+		const perfilId = 1;
+		//localStorage.getItem('usuarioId');
+		if (perfilId && id && typeof id === 'string') {
+			try {
+				if (isFavorite) {
+					const response = await axios.get(
+						`http://localhost:3005/favoritos/${perfilId}`
+					);
+					const favoritos = response.data.data;
+					// Encontra o favoritoId do Pokémon
+					const favorite = favoritos.find(
+						(favorite: { nome: number }) => favorite.nome === parseInt(id)
+					);
+					if (favorite) {
+						// Deleta o Pokémon da lista de favoritos usando o favoritoId
+						await axios.delete(
+							`http://localhost:3005/favoritos/${favorite.id}`
+						);
+						setIsFavorite(false);
+					} else {
+						setError('Favorito não encontrado para remoção.');
+					}
+				} else {
+					// Se o Pokémon não estiver favoritado, favoritar
+					await axios.post('http://localhost:3005/favoritos', {
+						nome: parseInt(id),
+						usuario: perfilId,
+					});
+					setIsFavorite(true);
+				}
+			} catch (err: any) {
+				setError(err.message);
+			}
+		}
+	};
 
 	if (loading) {
 		return <p>Carregando...</p>;
@@ -96,7 +157,10 @@ export default function Pokemon() {
 							id="infoPokemon"
 							className="flex flex-col ml-8 w-[60%] relative"
 						>
-							<button className="absolute top-0 right-0">
+							<button
+								className="absolute top-0 right-0"
+								onClick={toggleFavorite}
+							>
 								{!isFavorite && (
 									<Image
 										src={StarEmpty}

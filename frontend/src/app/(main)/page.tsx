@@ -1,6 +1,6 @@
 'use client'; // Adicione esta linha no topo do arquivo para marcar o componente como do lado do cliente
 
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -35,10 +35,14 @@ type Team = {
 };
 
 export default function Inicio() {
-	var pokemonsId: string[] = [];
-	const [pokemons, setPokemons] = useState<any[]>([]);
-	const [pokemonsTimes, setPokemonsTimes] = useState<Pokemon[]>([]);
-	const [times, setTimes] = useState<Team[]>([]);
+
+  var pokemonsId: string[] = [];
+  const [pokemons, setPokemons] = useState<any[]>([]);
+  const [pokemonsTimes, setPokemonsTimes] = useState<Pokemon[]>([]);
+  const [times, setTimes] = useState<Team[]>([]);
+  const [favoritos, setFavoritos] = useState<any[]>([]);
+
+  const usuarioId = 1;  // Substitua pelo ID do usuário real
 
 	useEffect(() => {
 		adicionarPokemons();
@@ -94,8 +98,32 @@ export default function Inicio() {
 			}
 		};
 
-		fetchPokemons(); // Chamada da função
-	}, []); // O array vazio impede loops infinitos
+    fetchPokemons(); // Chamada da função para buscar Pokémons e Times
+
+    // Buscar favoritos do usuário
+    const fetchFavoritos = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3005/favoritos/${usuarioId}`);
+        const favoritosData = response.data.data;
+
+        // Buscar os detalhes dos Pokémons favoritos
+        const pokemonRequests = favoritosData.map((favorito: any) => 
+          axios.get(`http://localhost:3005/pokemon/numero/${favorito.nome}`)
+        );
+
+        // Esperar pelas respostas
+        const pokemonResponses = await Promise.all(pokemonRequests);
+        const pokemonsFavoritos = pokemonResponses.map((response) => response.data.data);
+
+        setFavoritos(pokemonsFavoritos);  // Atualiza o estado com os Pokémons favoritos
+      } catch (error) {
+        
+      }
+    };
+
+    fetchFavoritos(); // Chama a função para buscar os favoritos
+
+  }, []); // O array vazio impede loops infinitos
 
 	return (
 		<div className="flex flex-row h-fit w-5/6 max-w-6xl m-auto gap-20 p-8">
@@ -147,39 +175,22 @@ export default function Inicio() {
 										Pokemons Favoritos
 									</h3>
 									<div className="grid grid-rows-2 grid-flow-col gap-x-2 gap-y-1">
-										<Image
-											src={bulbasaur}
-											alt={''}
-											width={75}
-										/>
-										<Image
-											src={bulbasaur}
-											alt={''}
-											width={75}
-										/>
-										<Image
-											src={bulbasaur}
-											alt={''}
-											width={75}
-										/>
-										<Image
-											src={bulbasaur}
-											alt={''}
-											width={75}
-										/>
-										<Image
-											src={bulbasaur}
-											alt={''}
-											width={75}
-										/>
-										<Image
-											src={bulbasaur}
-											alt={''}
-											width={75}
-										/>
-									</div>
-								</div>
-							</div>
+                    {favoritos.length > 0 ? (
+                      favoritos.slice(0, 6).map((pokemon: any, index: number) => (
+                        <Image
+                          key={pokemon.numero}  // Usar um identificador único (número do Pokémon)
+                          src={pokemon.foto || bulbasaur}  // Foto do Pokémon ou imagem estática se não houver foto
+                          alt={pokemon.nome}
+                          width={75}
+                          height={75}
+                        />
+                      ))
+                    ) : (
+                      <p>Sem favoritos</p>  // Mensagem caso não haja favoritos
+                    )}
+                  </div>
+                </div>
+              </div>
 							<div className="flex gap-2">
 								<Link
 									className="bg-blue-400 hover:bg-blue-500 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold"

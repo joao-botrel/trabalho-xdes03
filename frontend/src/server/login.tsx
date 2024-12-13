@@ -11,7 +11,7 @@ function loginUsuario({ email, senha }: Usuario) {
 			console.log('Usuário logado com sucesso:', response.data);
 			// Armazenar o token no localStorage
 			localStorage.setItem('token', response.data.token);
-			localStorage.setItem('user', response.data.data.email);
+			localStorage.setItem('userId', response.data.data.perfilId);
 			localStorage.setItem('senha', response.data.data.senha);
 		})
 		.catch((error) => {
