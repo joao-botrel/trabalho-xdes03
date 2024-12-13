@@ -29,8 +29,6 @@ export default function Time({
     teamName = 'Time Sem Nome',
     pokemons = []
 }: TimeProps) {
-    
-    console.log(pokemons);
     return (
         <div className="flex flex-col gap-2 items-start border bg-slate-100/75 border-slate-400 overflow-hidden rounded-lg p-4">
             <div className="flex flex-row justify-between w-full">

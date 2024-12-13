@@ -43,20 +43,18 @@ export default function Times() {
 				});
 
 				setTeams(response.data.data);
-				console.log(response.data.data);
 				setIsLoading(false);
 				response.data.data.map((team: Team) => {
 					pokemonsId.push(team.nome1!, team.nome2!, team.nome3!, team.nome4!, team.nome5!, team.nome6!);
 				});
 				console.log(pokemonsId);
 				var pokemonsList: Pokemon[] = [];
-				for(var i = 0; i < 6; i++){
-					
+				for(var i = 0; i < pokemonsId.length; i++){
+					console.log(pokemonsId[i]);
 					const pokemon = await axios.get(`http://localhost:3005/pokemon/numero/${pokemonsId[i]}`);
 					pokemonsList.push(pokemon.data.data);
 				}
 				setPokemons(pokemonsList);
-				console.log(pokemonsList);
 			} catch (error) {
 				console.error('Erro ao buscar Times:', error);
 				setError('Não foi possível carregar os times');
@@ -91,13 +89,13 @@ export default function Times() {
 					<p className="text-gray-600">Você ainda não criou nenhum time</p>
 				) : (
 					<div className="flex flex-col gap-8">
-						{teams.map((team) => (
-							<Time
-								key={team.id}
-								variant="horizontal"
-								teamName={team.nomeTime}
-								pokemons= {pokemons}
-							/>
+						{teams.map((team, index) => (
+						  <Time
+							key={team.id}
+							variant="horizontal"
+							teamName={team.nomeTime}
+							pokemons={pokemons.slice(index * 6, (index + 1) * 6)}
+						  />
 						))}
 					</div>
 				)}
