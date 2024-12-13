@@ -9,6 +9,7 @@ import Image from 'next/image';
 import Search from '/public/img/search.svg';
 import { ChevronRightIcon, ChevronLeftIcon } from 'lucide-react';
 import PokemonType from '@/types/pokemonType';
+import PokemonCardDelete from '@/components/PokemonCardDelete';
 
 type Pokemon = {
 	id: number;
@@ -26,6 +27,7 @@ export default function NovoTime() {
 	const [selectedPokemons, setSelectedPokemons] = useState<Pokemon[]>([]);
 	const [teamName, setTeamName] = useState('');
 	const [selectedPokemonForTeam, setSelectedPokemonForTeam] = useState<Pokemon | null>(null);
+	const [update, setUpdate] = useState(false);
 
 	// Fetch all Pokémon on component mount
 	useEffect(() => {
@@ -40,6 +42,22 @@ export default function NovoTime() {
 		};
 		fetchAllPokemons();
 	}, []);
+
+	useEffect(() => {
+		const fetchUnselectedPokemons = async () => {
+			try {
+				const response = await axios.get('http://localhost:3005/pokemon');
+				const unselectedPokemons: Pokemon[] = response.data.data.filter(
+					(pokemon: Pokemon) => !selectedPokemons.some((selected: Pokemon) => selected.id === pokemon.id)
+				);
+				setAllPokemons(unselectedPokemons);
+				setFilteredPokemons(unselectedPokemons);
+			} catch (error) {
+				console.error('Erro ao buscar todos os Pokémons:', error);
+			}
+		};
+		fetchUnselectedPokemons();
+	}, [update]);
 
 	// Filter Pokémon based on search term
 	useEffect(() => {
@@ -68,6 +86,7 @@ export default function NovoTime() {
 		const newSelectedPokemons = selectedPokemons.filter(p => p.id !== pokemon.id);
 		setSelectedPokemons(newSelectedPokemons);
 		setAllPokemons([...allPokemons, pokemon]);
+		setUpdate(prev => !prev);
 	};
 
 	// Save team
@@ -130,9 +149,9 @@ export default function NovoTime() {
 						<button
 							onClick={addPokemonToTeam}
 							disabled={!selectedPokemonForTeam || selectedPokemons.length >= 6}
-							className={`bg-green-500 text-white rounded-full p-2 transition ${!selectedPokemonForTeam || selectedPokemons.length >= 6
+							className={`text-white rounded-full p-2 transition ${!selectedPokemonForTeam || selectedPokemons.length >= 6
 								? 'bg-gray-300 cursor-not-allowed'
-								: 'hover:bg-green-600'
+								: 'bg-green-500 hover:bg-green-600'
 								}`}
 						>
 							<ChevronRightIcon size={24} />
@@ -155,7 +174,7 @@ export default function NovoTime() {
 					/>
 					<div className="grid grid-flow-col grid-rows-2 gap-4">
 						{selectedPokemons.map((pokemon, index) => (
-							<PokemonCard
+							<PokemonCardDelete
 								key={pokemon.id}
 								variant="sm"
 								nome={pokemon.nome}

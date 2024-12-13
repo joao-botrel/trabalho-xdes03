@@ -8,7 +8,7 @@ import Link from 'next/link';
 import bulbasaur from '/public/img/bulbasaur.png';
 
 import PokemonCard from '@/components/PokemonCard';
-import Time from '@/components/Time';
+import Time from '@/components/TimeUnico';
 import adicionarPokemons from '@/services/pokemonServices'
 import PokemonType from '@/types/pokemonType';
 
@@ -186,10 +186,12 @@ export default function Inicio() {
             <div className="flex flex-col gap-2 items-end">
               {times.map((team, index) => (
 						  <Time
-							key={team.id}
+              key={team.id}
+							id={team.id}
 							variant="grid"
 							teamName={team.nomeTime}
 							pokemons={pokemonsTimes.slice(index * 6, (index + 1) * 6)}
+              onDelete={() => {}}
 						  />
 						))}
               <Link

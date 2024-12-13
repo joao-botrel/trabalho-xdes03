@@ -6,6 +6,7 @@ const router = express.Router()
 
 router.post('/times', /*autorizarUsuario,*/  timeController.criarTime)
 router.get('/times/:usuarioId', /*autorizarUsuario,*/  timeController.getTimePorUsuario)
+router.get('/times/id/:timeId', /*autorizarUsuario,*/  timeController.getTimesPorId)
 router.delete('/times/:timeId', /*autorizarUsuario,*/  timeController.deletarTime)
 router.put('/times/:timeId', /*autorizarUsuario,*/  timeController.atualizarTime)
 

@@ -4,7 +4,7 @@ import PokemonTipo from './PokemonTipo';
 import PokemonType from '@/types/pokemonType';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { PlusIcon, CheckIcon } from 'lucide-react';
+import { PlusIcon, CheckIcon, MinusIcon } from 'lucide-react';
 
 type Variants = 'md' | 'sm';
 
@@ -19,7 +19,7 @@ type PokemonCardProps = {
     showSelectButton?: boolean;
 };
 
-export default function PokemonCard({
+export default function PokemonCardDelete({
     nome,
     tipos = [], // Valor padrão para evitar erros de acesso
     foto,
@@ -48,7 +48,7 @@ export default function PokemonCard({
                     onClick={onSelect}
                     className="absolute top-2 right-2 z-10 bg-green-500 text-white rounded-full p-1 hover:bg-green-600 transition"
                 >
-                    <PlusIcon size={16} />
+                    <MinusIcon size={16} />
                 </button>
             )}
 

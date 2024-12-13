@@ -6,6 +6,8 @@ import Trash from '/public/img/trash.svg';
 
 import clsx from 'clsx';
 import PokemonType from '@/types/pokemonType';
+import Link from 'next/link';
+import api from '@/server/api';
 
 type Variant = 'horizontal' | 'grid';
 
@@ -22,20 +24,41 @@ type TimeProps = {
     variant?: Variant;
     teamName?: string;
     pokemons?: Pokemon[];
+    id?: number;
+    onDelete: (id: number) => void;
 };
+
+const handleDelete = async (id: number, setUpdate: React.Dispatch<React.SetStateAction<boolean>>) => {
+    try {
+      await api.delete(`http://localhost:3005/times/${id}`);
+      setUpdate(prev => !prev); // Toggle the update state to trigger useEffect
+    } catch (error) {
+      console.error('Erro ao deletar time:', error);
+    }
+  };
 
 export default function Time({
     variant = 'horizontal',
     teamName = 'Time Sem Nome',
-    pokemons = []
+    pokemons = [],
+    id = 0,
+    onDelete
 }: TimeProps) {
     return (
         <div className="flex flex-col gap-2 items-start border bg-slate-100/75 border-slate-400 overflow-hidden rounded-lg p-4">
             <div className="flex flex-row justify-between w-full">
                 <h3 className="text-lg font-semibold">{teamName}</h3>
                 <div className="flex flex-row gap-4">
-                    <Image src={Pencil} alt="editar" height={24} />
-                    <Image src={Trash} alt="excluir" height={24} />
+                    <Link href={`/times/${id}`}>
+                        <Image src={Pencil} alt="editar" height={24} />
+                    </Link>
+                    <Image
+                        src={Trash}
+                        onClick={() => onDelete(id)}
+                        alt="excluir"
+                        height={24}
+                        style={{ cursor: 'pointer' }}
+                    />
                 </div>
             </div>
             <div
