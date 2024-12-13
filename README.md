@@ -6,7 +6,7 @@
 
 <div align="center">
 Bem-vindo à Poke-Des!<br /> 
-Este é um projeto desenvolvido para os novos treinadores de UnifeiTown!<br />
+Este é um projeto desenvolvido para os treinadores de UnifeiTown!<br />
 Anda perdendo o controle dos seus times?<br />
 Não lembra a última vez que trocou palavras de conforto com seu Pokémon favorito?<br />
 Não se preocupe mais, a Poke-Des está aqui para te auxiliar!
