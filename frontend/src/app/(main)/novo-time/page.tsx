@@ -99,7 +99,7 @@ export default function NovoTime() {
 	// Save team
 	const handleSaveTeam = async () => {
 		try {
-			const userId = 1; // Replace with actual user ID retrieval
+			const userId = localStorage.getItem("userId"); // Replace with actual user ID retrieval
 
 			const response = await axios.post('http://localhost:3005/times', {
 				nomeTime: teamName,
@@ -109,10 +109,11 @@ export default function NovoTime() {
 				nome4: selectedPokemons[3]?.numero,
 				nome5: selectedPokemons[4]?.numero,
 				nome6: selectedPokemons[5]?.numero,
-				usuario: userId
+				usuario: parseInt(userId as string)
 			}, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
 
 			alert('Time criado com sucesso!');
+			window.location.href = '/times'; // Redireciona para a página inicial
 			// Optional: reset form or navigate
 		} catch (error) {
 			if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
@@ -182,7 +183,7 @@ export default function NovoTime() {
 						onChange={(e) => setTeamName(e.target.value)}
 						className="p-2 bg-white/75 rounded-lg w-64"
 					/>
-					<div className="grid grid-flow-col grid-rows-2 gap-4">
+					<div className="grid grid-flow-row grid-cols-3 gap-4">
 						{selectedPokemons.map((pokemon, index) => (
 							<PokemonCardDelete
 								key={pokemon.id}

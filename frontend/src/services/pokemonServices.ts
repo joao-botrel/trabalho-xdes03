@@ -28,7 +28,7 @@ interface PokemonSpecies {
 const adicionarPokemons = async () => {
     try {
         // 1. Obter lista de Pokémon entre 101 e 200
-        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=100&offset=900`);
+        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=100&offset=100`);
         const listaPokemons = response.data.results;
 
         const listaParaEnvio: any[] = []; // Lista para armazenar os pokémons a serem enviados

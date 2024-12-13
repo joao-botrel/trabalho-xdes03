@@ -94,10 +94,6 @@ export const getTimesPorId = async (req, res) => {
             where: { id: timeId },
         });
 
-        if (!time) {
-            return res.status(404).json({ msg: "Time não encontrado." });
-        }
-
         res.json({
             data: time,
             msg: "Time encontrado com sucesso!",

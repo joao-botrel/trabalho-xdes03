@@ -43,7 +43,7 @@ export default function Times() {
 		const fetchTeams = async () => {
 			try {
 				// Assuming you have user authentication and can get the user ID
-				const userId = 1; // Replace with actual user ID retrieval
+				const userId = localStorage.getItem('userId'); // Replace with actual user ID retrieval
 
 				const response = await axios.get('http://localhost:3005/times/' + userId, {
 					params: { usuario: userId },
@@ -67,7 +67,6 @@ export default function Times() {
 				if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
 					window.location.href = '/splash'; // Redireciona para a página inicial
 				}
-				console.error('Erro ao buscar Times:', error);
 				setIsLoading(false);
 			}
 		};

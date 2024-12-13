@@ -120,7 +120,7 @@ export default function NovoTime() {
     // Save team
     const handleSaveTeam = async () => {
         try {
-            const userId = 1; // Replace with actual user ID retrieval
+            const userId = localStorage.getItem("userId"); // Replace with actual user ID retrieval
 
             const response = await axios.put('http://localhost:3005/times/' + id, {
                 nomeTime: teamName,
@@ -205,7 +205,7 @@ export default function NovoTime() {
                         onChange={(e) => setTeamName(e.target.value)}
                         className="p-2 bg-white/75 rounded-lg w-64"
                     />
-                    <div className="grid grid-flow-col grid-rows-2 gap-4">
+                    <div className="grid grid-flow-row grid-cols-3 gap-4">
                         {selectedPokemons.map((pokemon, index) => (
                             <PokemonCardDelete
                                 key={pokemon.id}

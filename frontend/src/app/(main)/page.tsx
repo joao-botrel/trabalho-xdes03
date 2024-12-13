@@ -1,4 +1,4 @@
-'use client'; // Adicione esta linha no topo do arquivo para marcar o componente como do lado do cliente
+'use client';
 
 import { use, useEffect, useState } from 'react';
 import axios from 'axios';
@@ -35,6 +35,8 @@ type Team = {
   pokemons: Pokemon[];
 };
 
+let TimeEmpty = false;
+
 export default function Inicio() {
 
   var pokemonsId: string[] = [];
@@ -58,7 +60,21 @@ export default function Inicio() {
         const pokemonRequests = randomNumbers.map((numero) =>
           axios.get(`http://localhost:3005/pokemon/numero/${numero}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } })
         );
-        const userId = 1; // Replace with actual user ID retrieval
+
+        // Esperar todas as requisições
+        const responses = await Promise.all(pokemonRequests);
+        const data = responses.map((response) => response.data); // Extrair os dados
+        setPokemons(data); // Atualizar o estado com os dados dos Pokémons
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+          window.location.href = '/splash'; // Redireciona para a página inicial
+        }
+      }
+    };
+
+    const fetchTimes = async () => {
+      try {
+        const userId = localStorage.getItem('userId'); // Replace with actual user ID retrieval
 
         const response = await axios.get(
           'http://localhost:3005/times/' + userId,
@@ -69,6 +85,11 @@ export default function Inicio() {
         );
         var timePrincipal = [];
         timePrincipal.push(response.data.data[0]);
+        if(timePrincipal.length > 0){
+          TimeEmpty = true;
+        }else{
+          TimeEmpty = false;
+        }
         setTimes(timePrincipal);
         response.data.data.map((team: Team) => {
           pokemonsId.push(
@@ -81,30 +102,23 @@ export default function Inicio() {
           );
         });
 
-        var pokemonsList: Pokemon[] = [];
-        for (var i = 0; i < 6; i++) {
-          const pokemon = await axios.get(
-            `http://localhost:3005/pokemon/numero/${pokemonsId[i]}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } }
-          );
-          pokemonsList.push(pokemon.data.data);
+        if (pokemonsId.length > 0) {
+          var pokemonsList: Pokemon[] = [];
+          for (var i = 0; i < 6; i++) {
+            const pokemon = await axios.get(
+              `http://localhost:3005/pokemon/numero/${pokemonsId[i]}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } }
+            );
+            pokemonsList.push(pokemon.data.data);
+          }
+          setPokemonsTimes(pokemonsList);
         }
-        setPokemonsTimes(pokemonsList);
-
-        // Esperar todas as requisições
-        const responses = await Promise.all(pokemonRequests);
-        const data = responses.map((response) => response.data); // Extrair os dados
-        setPokemons(data); // Atualizar o estado com os dados dos Pokémons
       } catch (error) {
         if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
           window.location.href = '/splash'; // Redireciona para a página inicial
         }
-        console.error('Erro ao buscar os Pokémons ou Times:', error);
       }
     };
 
-    fetchPokemons(); // Chamada da função para buscar Pokémons e Times
-
-    // Buscar favoritos do usuário
     const fetchFavoritos = async () => {
       try {
         const response = await axios.get(`http://localhost:3005/favoritos/${valor}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
@@ -127,8 +141,9 @@ export default function Inicio() {
       }
     };
 
+    fetchPokemons(); // Chamada da função para buscar Pokémons e Times
+    fetchTimes();
     fetchFavoritos(); // Chama a função para buscar os favoritos
-
 
   }, []); // O array vazio impede loops infinitos
 
@@ -144,7 +159,7 @@ export default function Inicio() {
       } catch (error) {
         if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
           window.location.href = '/splash'; // Redireciona para a página inicial
-      }
+        }
         console.error('Erro ao buscar o usuario:', error);
       }
     }
@@ -191,7 +206,7 @@ export default function Inicio() {
           </div>
         </div>
       </section>
-      <div className="flex flex-col grow justify-between">
+      <div className="flex flex-col grow gap-4 justify-between">
         <section className="flex flex-col bg-blue-100/75 border-2 border-slate-300 rounded-xl p-8 items-center">
           <div className="flex flex-row w-full justify-between">
             <div className="flex flex-col h-full justify-between gap-6">
@@ -233,7 +248,6 @@ export default function Inicio() {
                 </Link>
               </div>
             </div>
-            {/* <div className="bg-amber-300 w-64 h-64 rounded-full"></div> */}
             <Image
               src={Foto}
               alt="Foto de perfil do usuário"
@@ -242,11 +256,11 @@ export default function Inicio() {
             />
           </div>
         </section>
-        <section className="flex flex-col items-center bg-orange-100/75 border-2 border-slate-300 rounded-xl p-6">
+        <section className="flex flex-col items-center bg-orange-100/75 border-2 border-slate-300 rounded-xl p-6 h-full">
           <div className="flex flex-col gap-4 items-start">
             <h2 className="text-xl font-bold">Meus Times</h2>
             <div className="flex flex-col gap-2 items-end">
-              {times.map((team, index) => (
+              {TimeEmpty ? times.map((team, index) => (
                 <Time
                   key={team.id}
                   variant="grid"
@@ -257,7 +271,7 @@ export default function Inicio() {
                   )} onDelete={function (id: number): void {
 
                   }} />
-              ))}
+              )): <p>Você ainda não criou nenhum time</p>}
               <Link
                 className="bg-orange-400 hover:bg-orange-500 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold"
                 href={'/times'}

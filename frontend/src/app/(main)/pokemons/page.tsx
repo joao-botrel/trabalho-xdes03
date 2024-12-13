@@ -275,13 +275,13 @@ export default function Pokemons() {
                     {pokemonTypes.map((type) => (
                       <button
                         key={type}
-                        className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex justify-end w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         onClick={() => {
                           setFilter(`tipo=${type}`);
                           setShowFilters(MODAL_FILTRO.NONE);
                         }}
                       >
-                        {type}
+                        <PokemonTipo tipo={type} />
                       </button>
                     ))}
                   </div>
