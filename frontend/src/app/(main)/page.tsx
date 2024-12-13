@@ -1,11 +1,11 @@
 'use client';  // Adicione esta linha no topo do arquivo para marcar o componente como do lado do cliente
 
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import bulbasaur from '/public/img/bulbasaur.png';
+import bulbasaur from '/public/img/bulbasaur.png';  // Imagem estática de fallback
 
 import PokemonCard from '@/components/PokemonCard';
 import Time from '@/components/Time';
@@ -35,13 +35,17 @@ type Team = {
 
 export default function Inicio() {
 
-	var pokemonsId: string[] = [];
+  var pokemonsId: string[] = [];
   const [pokemons, setPokemons] = useState<any[]>([]);
-	const [pokemonsTimes, setPokemonsTimes] = useState<Pokemon[]>([]);
+  const [pokemonsTimes, setPokemonsTimes] = useState<Pokemon[]>([]);
   const [times, setTimes] = useState<Team[]>([]);
+  const [favoritos, setFavoritos] = useState<any[]>([]);
+
+  const usuarioId = 2;  // Substitua pelo ID do usuário real
 
   useEffect(() => {
     adicionarPokemons();
+    
     const fetchPokemons = async () => {
       try {
         // Gerar 3 números aleatórios entre 1 e 1008
@@ -55,25 +59,25 @@ export default function Inicio() {
         );
         const userId = 1; // Replace with actual user ID retrieval
 
-				const response = await axios.get('http://localhost:3005/times/'+userId, {
-					params: { usuario: userId }
-				});
+        const response = await axios.get('http://localhost:3005/times/' + userId, {
+          params: { usuario: userId }
+        });
+
         var timePrincipal = [];
         timePrincipal.push(response.data.data[0]);
-				setTimes(timePrincipal);
+        setTimes(timePrincipal);
         response.data.data.map((team: Team) => {
           pokemonsId.push(team.nome1!, team.nome2!, team.nome3!, team.nome4!, team.nome5!, team.nome6!);
         });
 
         var pokemonsList: Pokemon[] = [];
-				for(var i = 0; i < 6; i++){
-					const pokemon = await axios.get(`http://localhost:3005/pokemon/numero/${pokemonsId[i]}`);
-					pokemonsList.push(pokemon.data.data);
-				}
+        for (var i = 0; i < 6; i++) {
+          const pokemon = await axios.get(`http://localhost:3005/pokemon/numero/${pokemonsId[i]}`);
+          pokemonsList.push(pokemon.data.data);
+        }
         setPokemonsTimes(pokemonsList);
 
-
-        // Esperar todas as requisições
+        // Esperar todas as requisições dos pokémons aleatórios
         const responses = await Promise.all(pokemonRequests);
         const data = responses.map((response) => response.data); // Extrair os dados
         setPokemons(data); // Atualizar o estado com os dados dos Pokémons
@@ -82,10 +86,32 @@ export default function Inicio() {
       }
     };
 
-    fetchPokemons(); // Chamada da função
+    fetchPokemons(); // Chamada da função para buscar Pokémons e Times
+
+    // Buscar favoritos do usuário
+    const fetchFavoritos = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3005/favoritos/${usuarioId}`);
+        const favoritosData = response.data.data;
+
+        // Buscar os detalhes dos Pokémons favoritos
+        const pokemonRequests = favoritosData.map((favorito: any) => 
+          axios.get(`http://localhost:3005/pokemon/numero/${favorito.nome}`)
+        );
+
+        // Esperar pelas respostas
+        const pokemonResponses = await Promise.all(pokemonRequests);
+        const pokemonsFavoritos = pokemonResponses.map((response) => response.data.data);
+
+        setFavoritos(pokemonsFavoritos);  // Atualiza o estado com os Pokémons favoritos
+      } catch (error) {
+        console.error('Erro ao buscar favoritos:', error);
+      }
+    };
+
+    fetchFavoritos(); // Chama a função para buscar os favoritos
+
   }, []); // O array vazio impede loops infinitos
-
-
 
   return (
     <div className="flex flex-row h-fit w-5/6 max-w-6xl m-auto gap-20 p-8">
@@ -129,36 +155,19 @@ export default function Inicio() {
                     Pokemons Favoritos
                   </h3>
                   <div className="grid grid-rows-2 grid-flow-col gap-x-2 gap-y-1">
-                    <Image
-                      src={bulbasaur}
-                      alt={''}
-                      width={75}
-                    />
-                    <Image
-                      src={bulbasaur}
-                      alt={''}
-                      width={75}
-                    />
-                    <Image
-                      src={bulbasaur}
-                      alt={''}
-                      width={75}
-                    />
-                    <Image
-                      src={bulbasaur}
-                      alt={''}
-                      width={75}
-                    />
-                    <Image
-                      src={bulbasaur}
-                      alt={''}
-                      width={75}
-                    />
-                    <Image
-                      src={bulbasaur}
-                      alt={''}
-                      width={75}
-                    />
+                    {favoritos.length > 0 ? (
+                      favoritos.slice(0, 6).map((pokemon: any, index: number) => (
+                        <Image
+                          key={pokemon.numero}  // Usar um identificador único (número do Pokémon)
+                          src={pokemon.foto || bulbasaur}  // Foto do Pokémon ou imagem estática se não houver foto
+                          alt={pokemon.nome}
+                          width={75}
+                          height={75}
+                        />
+                      ))
+                    ) : (
+                      <p>Sem favoritos</p>  // Mensagem caso não haja favoritos
+                    )}
                   </div>
                 </div>
               </div>
@@ -185,13 +194,13 @@ export default function Inicio() {
             <h2 className="text-xl font-bold">Meus Times</h2>
             <div className="flex flex-col gap-2 items-end">
               {times.map((team, index) => (
-						  <Time
-							key={team.id}
-							variant="grid"
-							teamName={team.nomeTime}
-							pokemons={pokemonsTimes.slice(index * 6, (index + 1) * 6)}
-						  />
-						))}
+                <Time
+                  key={team.id}
+                  variant="grid"
+                  teamName={team.nomeTime}
+                  pokemons={pokemonsTimes.slice(index * 6, (index + 1) * 6)}
+                />
+              ))}
               <Link
                 className="bg-orange-400 hover:bg-orange-500 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold"
                 href={'/times'}
