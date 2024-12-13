@@ -210,14 +210,15 @@ export default function Inicio() {
 						<div className="flex flex-col gap-2 items-end">
 							{times.map((team, index) => (
 								<Time
-									key={team.id}
-									variant="grid"
-									teamName={team.nomeTime}
-									pokemons={pokemonsTimes.slice(
-										index * 6,
-										(index + 1) * 6
-									)}
-								/>
+                  key={team.id}
+                  variant="grid"
+                  teamName={team.nomeTime}
+                  pokemons={pokemonsTimes.slice(
+                    index * 6,
+                    (index + 1) * 6
+                  )} onDelete={function (id: number): void {
+                    
+                  } }								/>
 							))}
 							<Link
 								className="bg-orange-400 hover:bg-orange-500 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold"
