@@ -58,16 +58,16 @@ Não se preocupe mais, a Poke-Des está aqui para te auxiliar!
    - Adicione as variáveis necessárias, como a URL do banco de dados e chaves de API.
 
 4. Vá para a pasta backend e inicie o servidor:
-```bash
-cd backend
-npm run dev
- ```
+  ```bash
+  cd backend
+  npm run dev
+   ```
 
 5. Acesse a pasta frontend e inicie a PokeDes no navegador:
-```bash
-cd frontend
-http://localhost:3000
- ```
+  ```bash
+  cd frontend
+  http://localhost:3000
+   ```
 
 ## Dependências
 Um bom treinador é repleto de amigos! Confira os amigos da Poke-Des:
