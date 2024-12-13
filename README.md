@@ -1,11 +1,16 @@
-# PokeDes
+<div align="center">
+<img src="https://ik.imagekit.io/tkezpqj1f/pokebola.png?updatedAt=1734069385839" width="144">
 
-Bem-vindo à PokeDes! 
-Este é um projeto desenvolvido para os novos treinadores de UnifeiTown! 
-Anda perdendo o controle dos seus times? 
-Não lembra a última vez que trocou palavras de conforto com seu Pokémon favorito? 
-Não se preocupe mais, a PokeDes está aqui para te auxiliar!
+<h1>Poke-Des</h1>
+</div>
 
+<div align="center">
+Bem-vindo à Poke-Des!<br /> 
+Este é um projeto desenvolvido para os novos treinadores de UnifeiTown!<br />
+Anda perdendo o controle dos seus times?<br />
+Não lembra a última vez que trocou palavras de conforto com seu Pokémon favorito?<br />
+Não se preocupe mais, a Poke-Des está aqui para te auxiliar!
+</div>
 
 ## Funcionalidades
 
@@ -25,16 +30,16 @@ Não se preocupe mais, a PokeDes está aqui para te auxiliar!
 - Gerencie a lista de favoritos com facilidade.
 
 ## Tecnologias Utilizadas
-- **Frontend:** React.js
-- **Backend:** Node.js com Express
-- **Banco de Dados:** <Prisma
-- **API Externa:** PokéAPI
+- **Frontend:** [React.js](https://react.dev/)
+- **Backend:** Node.js com [Express](https://expressjs.com/)
+- **Banco de Dados:** [Prisma](https://www.prisma.io/)
+- **API Externa:** [PokéAPI](https://pokeapi.co/)
 
 ## Como Executar o Projeto
 
 ### Requisitos
 - Node.js
-- MySQL
+- [MySQL](https://www.mysql.com/)
 
 ### Passos
 
@@ -53,24 +58,32 @@ Não se preocupe mais, a PokeDes está aqui para te auxiliar!
    - Adicione as variáveis necessárias, como a URL do banco de dados e chaves de API.
 
 4. Vá para a pasta backend e inicie o servidor:
-   ```bash
-   cd backend
-   npm run dev
-   ```
-
-5. Acesse a Pokédex no navegador:
 ```bash
+cd backend
+npm run dev
+ ```
+
+5. Acesse a pasta frontend e inicie a PokeDes no navegador:
+```bash
+cd frontend
 http://localhost:3000
  ```
+
+## Dependências
+Um bom treinador é repleto de amigos! Confira os amigos da Poke-Des:
+- [clsx](https://www.npmjs.com/package/clsx)
+- [tailwind](https://tailwindcss.com/)
+- [axios](https://axios-http.com/)
+- [zod](https://zod.dev/)
 
 ## Licença
 Este projeto está licenciado sob a Licença MIT. Consulte o arquivo [LICENSE](LICENSE) para mais informações.
 
 ## Contato
 Para mais informações ou dúvidas, entre em contato:
-- GitHub: [andreunderstars]([(https://github.com/andreunderstars)])
-- GitHub: [hansblade]([(https://github.com/hansblade)])
-- GitHub: [joao-botrel]([https://github.com/joao-botrel])
-- GitHub: [Mavitu56]([(https://github.com/Mavitu56)])
+- GitHub: [andreunderstars](https://github.com/andreunderstars)<br />
+- GitHub: [hansblade](https://github.com/hansblade)<br />
+- GitHub: [joao-botrel](https://github.com/joao-botrel)<br />
+- GitHub: [Mavitu56](https://github.com/Mavitu56)<br />
 
 Avante treinador!
