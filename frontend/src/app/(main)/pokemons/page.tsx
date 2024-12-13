@@ -6,7 +6,6 @@ import Image from 'next/image';
 import SearchIcon from '/public/img/search.svg';
 import PokemonTipo from '@/components/PokemonTipo';
 import PokemonType from '@/types/pokemonType';
-import router from 'next/router';
 
 const generations = [
   { id: '1', nome: 'Geração I' },
@@ -19,6 +18,8 @@ const generations = [
   { id: '8', nome: 'Geração VIII' },
   { id: '9', nome: 'Geração IX' },
 ];
+
+let LoadingPhrase = 'Carregando...';
 
 const pokemonTypes: Array<PokemonType> = [
   'normal',
@@ -52,9 +53,27 @@ export default function Pokemons() {
   const [idSearch, setIdSearch] = useState<string>('');
   const [nameSearch, setNameSearch] = useState<string>('');
   const [showFilters, setShowFilters] = useState(MODAL_FILTRO.NONE);
-  const [pokemons, setPokemons] = useState<any[]>([]); // Usado para armazenar todos os pokémons
-  const [singlePokemon, setSinglePokemon] = useState<any | null>(null); // Usado para armazenar um único pokémon
+  const [pokemons, setPokemons] = useState<any[]>([]);
+  const [singlePokemon, setSinglePokemon] = useState<any | null>(null);
   const [filter, setFilter] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pokemonsPerPage = 9;
+
+  const indexOfLastPokemon = currentPage * pokemonsPerPage;
+  const indexOfFirstPokemon = indexOfLastPokemon - pokemonsPerPage;
+  const currentPokemons = pokemons.slice(indexOfFirstPokemon, indexOfLastPokemon);
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(pokemons.length / pokemonsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   const toggleDropdown = () => {
     showFilters === MODAL_FILTRO.NONE
@@ -66,15 +85,18 @@ export default function Pokemons() {
     if (!idSearch) return;
     try {
       const response = await axios.get(
-        `http://localhost:3005/pokemon/numero/${idSearch}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } }
+        `http://localhost:3005/pokemon/numero/${idSearch}`,
+        { headers: { Authorization: `Bearer ${localStorage.getItem('token') || ''}` } }
       );
       setSinglePokemon(response.data.data);
       setPokemons([]);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
-        window.location.href = '/splash'; // Redireciona para a página inicial
+        window.location.href = '/splash';
       }
-      console.error('Erro ao buscar Pokémon por número:', error);
+      setPokemons([]);
+      LoadingPhrase = 'Nenhum Pokémon encontrado';
+      console.error('Erro ao buscar os Pokémons:', error);
     }
   };
 
@@ -82,53 +104,58 @@ export default function Pokemons() {
     if (!nameSearch) return;
     try {
       const response = await axios.get(
-        `http://localhost:3005/pokemon?nome=${nameSearch}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } }
+        `http://localhost:3005/pokemon?nome=${nameSearch}`,
+        { headers: { Authorization: `Bearer ${localStorage.getItem('token') || ''}` } }
       );
       setPokemons(response.data.data);
       setSinglePokemon(null);
+      setCurrentPage(1);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
-        window.location.href = '/splash'; // Redireciona para a página inicial
+        window.location.href = '/splash';
       }
-      console.error('Erro ao buscar Pokémon por nome:', error);
+      setPokemons([]);
+      LoadingPhrase = 'Nenhum Pokémon encontrado';
+      console.error('Erro ao buscar os Pokémons:', error);
     }
   };
 
-  // Função para buscar Pokémons com filtros
   const fetchFilteredPokemons = async () => {
     try {
       let url = 'http://localhost:3005/pokemon';
       if (filter) {
-        // Modifica a URL com base no tipo de filtro
         if (filter.startsWith('gen')) {
-          const gen = filter.split('-')[1]; // Geração
+          const gen = filter.split('-')[1];
           url = `http://localhost:3005/pokemon/gen/${gen}`;
         } else if (filter.startsWith('tipo')) {
-          const tipo = filter.split('=')[1]; // Tipo
+          const tipo = filter.split('=')[1];
           url = `http://localhost:3005/pokemon/tipo?tipo1=${tipo}`;
         }
       }
-      const response = await axios.get(url, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token') || ''}` },
+      });
       setPokemons(response.data.data);
+      setCurrentPage(1);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
-        window.location.href = '/splash'; // Redireciona para a página inicial
+        window.location.href = '/splash';
       }
       console.error('Erro ao buscar Pokémons filtrados:', error);
     }
   };
 
-  // UseEffect para buscar Pokémons ao carregar a página e quando o filtro mudar
   useEffect(() => {
     const fetchPokemons = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:3005/pokemon', { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } }
+          'http://localhost:3005/pokemon',
+          { headers: { Authorization: `Bearer ${localStorage.getItem('token') || ''}` } }
         );
         setPokemons(response.data.data);
       } catch (error) {
         if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
-          window.location.href = '/splash'; // Redireciona para a página inicial
+          window.location.href = '/splash';
         }
         console.error('Erro ao buscar os Pokémons:', error);
       }
@@ -140,12 +167,31 @@ export default function Pokemons() {
     }
   }, [filter]);
 
-  const handleRefreshPage = () => {
-    window.location.reload();
+  const handleRefreshPage = async () => {
+    try{
+      const response = await axios.get(
+        'http://localhost:3005/pokemon',
+        { headers: { Authorization: `Bearer ${localStorage.getItem('token') || ''}` } }
+      );
+      console.log(response.data.data);
+      setPokemons(response.data.data);
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
+        window.location.href = '/splash';
+      }
+      console.error('Erro ao buscar os Pokémons:', error);
+    }
+    console.log('refresh');
+    setFilter('');
+    setIdSearch('');
+    setNameSearch('');
+    setSinglePokemon(null);
+    setCurrentPage(1);
+    
   };
 
   return (
-    <div className='h-screen'>
+    <div className="min-h-screen">
       <div className="flex flex-col items-center h-fit w-5/6 max-w-6xl m-auto gap-20 p-8 bg-gray-100/75 border-2 border-slate-300 rounded-xl">
         <div className="flex flex-row justify-between w-full">
           <h1 className="text-3xl font-bold">Pokemons</h1>
@@ -162,11 +208,7 @@ export default function Pokemons() {
                 className="bg-orange-400 hover:bg-orange-600 transition duration-300 p-2 rounded-md"
                 onClick={handleSearchByNumber}
               >
-                <Image
-                  src={SearchIcon}
-                  alt={'Buscar'}
-                  height={24}
-                />
+                <Image src={SearchIcon} alt={'Buscar'} height={24} />
               </button>
             </div>
             <div className="flex flex-row items-center gap-2">
@@ -181,11 +223,7 @@ export default function Pokemons() {
                 className="bg-orange-400 hover:bg-orange-600 transition duration-300 p-2 rounded-md"
                 onClick={handleSearchByName}
               >
-                <Image
-                  src={SearchIcon}
-                  alt={'Buscar'}
-                  height={24}
-                />
+                <Image src={SearchIcon} alt={'Buscar'} height={24} />
               </button>
             </div>
             <div className="relative">
@@ -199,17 +237,13 @@ export default function Pokemons() {
                 <div className="absolute right-0 w-32 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
                   <div className="py-1">
                     <button
-                      onClick={() =>
-                        setShowFilters(MODAL_FILTRO.GEN)
-                      }
+                      onClick={() => setShowFilters(MODAL_FILTRO.GEN)}
                       className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                       Geração
                     </button>
                     <button
-                      onClick={() =>
-                        setShowFilters(MODAL_FILTRO.TYPE)
-                      }
+                      onClick={() => setShowFilters(MODAL_FILTRO.TYPE)}
                       className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                       Tipo
@@ -226,10 +260,8 @@ export default function Pokemons() {
                         className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         onClick={() => {
                           setFilter(`gen-${item.id}`);
-                          setShowFilters(
-                            MODAL_FILTRO.NONE
-                          );
-                        }} // Atualiza o filtro com a geração
+                          setShowFilters(MODAL_FILTRO.NONE);
+                        }}
                       >
                         {item.nome}
                       </button>
@@ -240,18 +272,16 @@ export default function Pokemons() {
               {showFilters === MODAL_FILTRO.TYPE && (
                 <div className="absolute right-0 w-32 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
                   <div className="py-1">
-                    {pokemonTypes.map((tipo, index) => (
+                    {pokemonTypes.map((type) => (
                       <button
-                        key={index}
-                        className="flex justify-end w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        key={type}
+                        className="block w-full text-right px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         onClick={() => {
-                          setFilter(`tipo=${tipo}`);
-                          setShowFilters(
-                            MODAL_FILTRO.NONE
-                          );
-                        }} // Atualiza o filtro com o tipo
+                          setFilter(`tipo=${type}`);
+                          setShowFilters(MODAL_FILTRO.NONE);
+                        }}
                       >
-                        <PokemonTipo tipo={tipo} />
+                        {type}
                       </button>
                     ))}
                   </div>
@@ -259,46 +289,56 @@ export default function Pokemons() {
               )}
             </div>
             <button
-              onClick={handleRefreshPage}
               className="bg-red-400 hover:bg-red-500 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold"
+              onClick={handleRefreshPage}
             >
               Limpar Filtros
             </button>
           </div>
         </div>
+
         <div className="grid grid-flow-row grid-cols-3 gap-y-8 gap-x-16 w-fit">
           {singlePokemon ? (
             <PokemonCard
               key={singlePokemon.id}
-              nome={
-                singlePokemon.nome.charAt(0).toUpperCase() +
-                singlePokemon.nome.slice(1)
-              }
+              nome={singlePokemon.nome.charAt(0).toUpperCase() + singlePokemon.nome.slice(1)}
               img={singlePokemon.foto}
-              tipos={[
-                singlePokemon.tipo1,
-                singlePokemon.tipo2,
-              ].filter(Boolean)}
+              tipos={[singlePokemon.tipo1, singlePokemon.tipo2].filter(Boolean)}
               numero={singlePokemon.numero}
             />
-          ) : pokemons.length > 0 ? (
-            pokemons.map((pokemon: any) => (
+          ) : currentPokemons.length > 0 ? (
+            currentPokemons.map((pokemon: any) => (
               <PokemonCard
                 key={pokemon.id}
-                nome={
-                  pokemon.nome.charAt(0).toUpperCase() +
-                  pokemon.nome.slice(1)
-                }
+                nome={pokemon.nome.charAt(0).toUpperCase() + pokemon.nome.slice(1)}
                 img={pokemon.foto}
-                tipos={[pokemon.tipo1, pokemon.tipo2].filter(
-                  Boolean
-                )}
+                tipos={[pokemon.tipo1, pokemon.tipo2].filter(Boolean)}
                 numero={pokemon.numero}
               />
             ))
           ) : (
-            <p>Carregando Pokémons...</p>
+            <p>{LoadingPhrase}</p>
           )}
+        </div>
+
+        <div className="flex justify-between w-full">
+          <button
+            className="bg-orange-400 hover:bg-orange-500 transition duration-200 py-1 px-3 rounded-lg font-semibold"
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+          >
+            Anterior
+          </button>
+          <span className="text-lg font-medium">
+            Página {currentPage} de {Math.ceil(pokemons.length / pokemonsPerPage)}
+          </span>
+          <button
+            className="bg-orange-400 hover:bg-orange-500 transition duration-200 py-1 px-3 rounded-lg font-semibold"
+            onClick={handleNextPage}
+            disabled={currentPage === Math.ceil(pokemons.length / pokemonsPerPage)}
+          >
+            Próxima
+          </button>
         </div>
       </div>
     </div>

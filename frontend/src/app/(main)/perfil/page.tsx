@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Ditto_Perfil from '/public/img/ditto_perfil.png';
 
 export default function Perfil() {
+  const userId = localStorage.getItem('userId');
   const [nome, setNome] = useState('');
   const [imagem, setImagem] = useState(Ditto_Perfil); // Imagem inicial
   const [loading, setLoading] = useState(false);
@@ -23,7 +24,7 @@ export default function Perfil() {
       setLoading(true);
 
       axios
-        .put('http://localhost:3005/usuarios/2', formData)
+        .put('http://localhost:3005/usuarios/'+ userId, formData)
         .then((response) => {
           setImagem(response.data.url); // Supondo que o servidor retorne a URL da imagem
           setLoading(false);
@@ -47,7 +48,7 @@ export default function Perfil() {
     const usuarioId = 2; // Substitua por um valor real de usuário
 
     try {
-      const response = await axios.put('http://localhost:3005/usuarios/2', formData);
+      const response = await axios.put('http://localhost:3005/usuarios/'+ userId, formData);
       if (response.status === 200) {
         alert('Perfil atualizado com sucesso!');
       }

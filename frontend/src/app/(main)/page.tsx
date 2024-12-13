@@ -44,8 +44,6 @@ export default function Inicio() {
   const [favoritos, setFavoritos] = useState<any[]>([]);
   const [usuario, setUsuario] = useState<any>({});
 
-  const usuarioId = 1;  // Substitua pelo ID do usuário real
-
   useEffect(() => {
     adicionarPokemons();
     const fetchPokemons = async () => {
@@ -109,7 +107,7 @@ export default function Inicio() {
     // Buscar favoritos do usuário
     const fetchFavoritos = async () => {
       try {
-        const response = await axios.get(`http://localhost:3005/favoritos/${usuarioId}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
+        const response = await axios.get(`http://localhost:3005/favoritos/${valor}`, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
         const favoritosData = response.data.data;
 
         // Buscar os detalhes dos Pokémons favoritos

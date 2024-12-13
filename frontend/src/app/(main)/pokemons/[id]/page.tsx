@@ -9,6 +9,7 @@ import { useParams } from 'next/navigation';
 import StarEmpty from '/public/img/star.svg';
 import StarFilled from '/public/img/star-filled.svg';
 import router from 'next/router';
+import { set } from 'zod';
 
 type PokemonType =
 	| 'fire'
@@ -42,6 +43,7 @@ interface Pokemon {
 }
 
 export default function Pokemon() {
+					console.log(localStorage.getItem('token'));
 	const { id } = useParams();
 	const [pokemon, setPokemon] = useState<Pokemon | null>(null);
 	const [loading, setLoading] = useState(true);
@@ -67,9 +69,7 @@ export default function Pokemon() {
 		};
 
 		const checkIfFavorite = async () => {
-			const perfilId = 1;
-			//localStorage.getItem('usuarioId'); // Recupera o ID do usuário do localStorage
-			if (perfilId && id && typeof id === 'string') {
+			const perfilId = localStorage.getItem('userId'); // Recupera o ID do usuário do localStorage
 				try {
 					// Faz a requisição para pegar a lista de favoritos
 					const response = await axios.get(
@@ -77,17 +77,18 @@ export default function Pokemon() {
 					);
 					const favoritos = response.data.data;
 					// Verifica se o Pokémon está na lista de favoritos
-					const favorite = favoritos.find(
-						(favorite: { pokemonId: number }) =>
-							favorite.pokemonId === parseInt(id)
-					);
-					setIsFavorite(!favorite); // Se o Pokémon estiver favoritado, setIsFavorite será true
+					for(let favorito in favoritos){
+						if(favoritos[favorito].nome == id){
+							setIsFavorite(true);
+							break;
+					}
+				}
 				} catch (err: any) {
 					if (axios.isAxiosError(error) && error.response && error.response.status === 401) {
 						window.location.href = '/splash'; // Redireciona para a página inicial
 						}
 				}
-			}
+			
 		};
 
 		// Chama as duas funções após o componente ser montado
@@ -96,9 +97,8 @@ export default function Pokemon() {
 	}, [id]);
 
 	const toggleFavorite = async () => {
-		const perfilId = 1;
+		const perfilId = localStorage.getItem('userId'); // Recupera o ID do usuário do localStorage
 		//localStorage.getItem('usuarioId');
-		if (perfilId && id && typeof id === 'string') {
 			try {
 				if (isFavorite) {
 					const response = await axios.get(
@@ -107,7 +107,7 @@ export default function Pokemon() {
 					const favoritos = response.data.data;
 					// Encontra o favoritoId do Pokémon
 					const favorite = favoritos.find(
-						(favorite: { nome: number }) => favorite.nome === parseInt(id)
+						(favorite: { nome: number }) => favorite.nome === parseInt(id as string)
 					);
 					if (favorite) {
 						// Deleta o Pokémon da lista de favoritos usando o favoritoId
@@ -121,8 +121,8 @@ export default function Pokemon() {
 				} else {
 					// Se o Pokémon não estiver favoritado, favoritar
 					await axios.post('http://localhost:3005/favoritos', {
-						nome: parseInt(id),
-						usuario: perfilId,
+						nome: parseInt(id as string),
+						usuario: parseInt(perfilId as string),
 					}, { headers: { "Authorization": "Bearer " + (localStorage.getItem('token') || '') } });
 					setIsFavorite(true);
 				}
@@ -132,7 +132,6 @@ export default function Pokemon() {
 					}
 				setError(err.message);
 			}
-		}
 	};
 
 	if (loading) {
