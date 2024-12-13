@@ -212,6 +212,7 @@ export default function Pokemons() {
             nome={singlePokemon.nome.charAt(0).toUpperCase() + singlePokemon.nome.slice(1)}
             img={singlePokemon.foto}
             tipos={[singlePokemon.tipo1, singlePokemon.tipo2].filter(Boolean)}
+            numero={singlePokemon.numero}
           />
         ) : pokemons.length > 0 ? (
           pokemons.map((pokemon: any) => (
@@ -220,6 +221,7 @@ export default function Pokemons() {
               nome={pokemon.nome.charAt(0).toUpperCase() + pokemon.nome.slice(1)}
               img={pokemon.foto}
               tipos={[pokemon.tipo1, pokemon.tipo2].filter(Boolean)}
+              numero={pokemon.numero}
             />
           ))
         ) : (

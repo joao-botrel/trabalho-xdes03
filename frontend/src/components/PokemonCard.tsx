@@ -2,6 +2,7 @@ import Image from 'next/image';
 import PokemonTipo from './PokemonTipo';
 import PokemonType from '@/types/pokemonType';
 import clsx from 'clsx';
+import Link from 'next/link';
 
 type Variants = 'md' | 'sm';
 
@@ -10,6 +11,7 @@ type PokemonCardProps = {
   tipos: PokemonType[];
   img: string; // URL da imagem do Pokémon
   variant?: Variants;
+  numero: number;
 };
 
 export default function PokemonCard({
@@ -17,11 +19,12 @@ export default function PokemonCard({
   tipos,
   img,
   variant = 'md',
+  numero,
 }: PokemonCardProps) {
   const isValidImage = img && img.trim() !== ''; // Verifica se a URL da imagem é válida
 
   return (
-    <div
+    <Link href={`/pokemons/${numero}`}
       className={clsx(
         'flex flex-col gap-2 rounded-xl overflow-hidden shadow-lg bg-white p-2 pb-4',
         {
@@ -29,7 +32,7 @@ export default function PokemonCard({
           'w-40': variant === 'sm',
         }
       )}
-    >
+      >
       <div
         className={clsx(
           'bg-green-100 flex items-center justify-center rounded-xl',
@@ -68,6 +71,6 @@ export default function PokemonCard({
         </div>
         <p className="text-lg font-bold">{nome}</p>
       </div>
-    </div>
+    </Link>
   );
 }
