@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Ditto_Perfil from '/public/img/ditto_perfil.png';
 
+import Foto from '/public/img/profile-photo.jpg';
+
 export default function Perfil() {
 	return (
 		<div className="h-screen">
@@ -10,8 +12,8 @@ export default function Perfil() {
 						Editar perfil
 					</h1>
 					<Image
-						src={Ditto_Perfil}
-						alt="Ditto sorrindo na natureza"
+						src={Foto}
+						alt="Foto de perfil"
 						width={360}
 						className="rounded-[50%] mt-8 border-[4px] border-orange-400 hover:opacity-75 transition duration-200"
 					/>
