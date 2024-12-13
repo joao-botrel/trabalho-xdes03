@@ -77,12 +77,12 @@ export default function NovoTime() {
 
 			const response = await axios.post('http://localhost:3005/times', {
 				nomeTime: teamName,
-				nome1: selectedPokemons[0]?.id,
-				nome2: selectedPokemons[1]?.id,
-				nome3: selectedPokemons[2]?.id,
-				nome4: selectedPokemons[3]?.id,
-				nome5: selectedPokemons[4]?.id,
-				nome6: selectedPokemons[5]?.id ,
+				nome1: selectedPokemons[0]?.numero,
+				nome2: selectedPokemons[1]?.numero,
+				nome3: selectedPokemons[2]?.numero,
+				nome4: selectedPokemons[3]?.numero,
+				nome5: selectedPokemons[4]?.numero,
+				nome6: selectedPokemons[5]?.numero ,
 				usuario: userId
 			});
 

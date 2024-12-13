@@ -13,19 +13,32 @@ import adicionarPokemons from '@/services/pokemonServices'
 import PokemonType from '@/types/pokemonType';
 
 type Pokemon = {
-	id: number;
-	nome: string;
-	tipo1: PokemonType;
-	tipo2: PokemonType;
-	foto: string;
-	numero: number;
+  id: number;
+  nome: string;
+  tipo1: PokemonType;
+  tipo2: PokemonType;
+  foto: string;
+  numero: number;
+};
+
+type Team = {
+  id: number;
+  nomeTime: string;
+  nome1?: string;
+  nome2?: string;
+  nome3?: string;
+  nome4?: string;
+  nome5?: string;
+  nome6?: string;
+  pokemons: Pokemon[];
 };
 
 export default function Inicio() {
 
+	var pokemonsId: string[] = [];
   const [pokemons, setPokemons] = useState<any[]>([]);
 	const [pokemonsTimes, setPokemonsTimes] = useState<Pokemon[]>([]);
-  const [times, setTimes] = useState<any[]>([]);
+  const [times, setTimes] = useState<Team[]>([]);
 
   useEffect(() => {
     adicionarPokemons();
@@ -40,10 +53,25 @@ export default function Inicio() {
         const pokemonRequests = randomNumbers.map((numero) =>
           axios.get(`http://localhost:3005/pokemon/numero/${numero}`)
         );
-        const userId = 1;
-        const timesRequests = await axios.get('http://localhost:3005/times/'+userId);
+        const userId = 1; // Replace with actual user ID retrieval
 
-        setTimes(timesRequests.data.data);
+				const response = await axios.get('http://localhost:3005/times/'+userId, {
+					params: { usuario: userId }
+				});
+        var timePrincipal = [];
+        timePrincipal.push(response.data.data[0]);
+				setTimes(timePrincipal);
+        response.data.data.map((team: Team) => {
+          pokemonsId.push(team.nome1!, team.nome2!, team.nome3!, team.nome4!, team.nome5!, team.nome6!);
+        });
+
+        var pokemonsList: Pokemon[] = [];
+				for(var i = 0; i < 6; i++){
+					const pokemon = await axios.get(`http://localhost:3005/pokemon/numero/${pokemonsId[i]}`);
+					pokemonsList.push(pokemon.data.data);
+				}
+        setPokemonsTimes(pokemonsList);
+
 
         // Esperar todas as requisições
         const responses = await Promise.all(pokemonRequests);
@@ -156,15 +184,14 @@ export default function Inicio() {
           <div className="flex flex-col gap-4 items-start">
             <h2 className="text-xl font-bold">Meus Times</h2>
             <div className="flex flex-col gap-2 items-end">
-              {times.map((time) => (
-                <Time
-                  key={time.id}
-                  variant="horizontal"
-                  teamName={time.nomeTime}
-                  pokemons={time.pokemons}
-                />
-              ))
-              }
+              {times.map((team, index) => (
+						  <Time
+							key={team.id}
+							variant="grid"
+							teamName={team.nomeTime}
+							pokemons={pokemonsTimes.slice(index * 6, (index + 1) * 6)}
+						  />
+						))}
               <Link
                 className="bg-orange-400 hover:bg-orange-500 transition duration-200 w-fit py-1 px-2 rounded-lg font-semibold"
                 href={'/times'}
