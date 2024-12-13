@@ -75,7 +75,7 @@ git clone https://github.com/joao-botrel/trabalho-xdes03.git
 5. Acesse a pasta frontend e inicie a PokeDes no navegador:
  ```bash
  cd frontend
- http://localhost:3000
+ npm run dev
  ```
 
 ## Dependências
