@@ -1,10 +1,23 @@
+
 'use client';
 
 import Image from 'next/image';
 import Pikachu_Feliz from '/public/img/pikachuFeliz.png';
+import { z } from 'zod';
 import { useState } from 'react';
 
 import registrar from '@/server/registrar';
+import path from 'path';
+
+const RegisterSchema = z.object({
+	nome: z.string().trim().min(2, {message: 'Nome deve ter no mínimo 2 caracteres'}),
+	email: z.string().email('Formato de email inválido'),
+	senha: z.string().trim().min(4, {message: 'Senha deve ter no mínimo 4 caracteres'}),
+	confirmarSenha: z.string().trim().min(1, {message: 'Confirmar senha não pode estar vazio'})
+}).refine((data) => data.senha === data.confirmarSenha, {
+    message: "Senhas não coincidem",
+    path: ["confirmaSenha"]
+	});
 
 export default function Registrar() {
 	const [nome, setNome] = useState('');
@@ -18,6 +31,19 @@ export default function Registrar() {
 			email,
 			senha,
 		});
+
+		const validation = RegisterSchema.safeParse({ nome, email, senha, confirmarSenha });
+
+	if(!validation.success) {
+		let errorMsg = "";
+
+            validation.error.issues.forEach((issue) => {
+                errorMsg = errorMsg + issue.message + '.\n';
+            })
+
+            alert(errorMsg);
+            return;
+	}
 		console.log(response);
 	};
 
